@@ -1,0 +1,466 @@
+<html>
+
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HZ7E2WLGV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HZ7E2WLGV5');
+</script>
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WS6XJBM');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+
+<style>
+
+    html {
+        position: relative;
+		overflow-x:hidden;
+    }
+
+    input:checked+.slider {
+        background-color: #2196F3;
+    }
+
+    input:focus+.slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked+.slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    .col-t1 {
+        padding-top: 2%;
+        padding-left: 15%;
+		padding-bottom:30%;
+    }
+
+    .row3t {
+        width: 50px;
+        height: 1px;
+
+
+        border: solid 1px #673b95;
+    }
+	
+	 .image {
+        position: absolute;
+        width: 55%;
+        top: 36.5%;
+        right: -35%;
+        transform: translate(-50%, -50%);
+    }
+
+	.image_container {
+	  display: flex;
+      flex-direction: column;
+	  
+	}
+	
+
+
+
+
+    .switch-button {
+        background: #FBE5D6;
+        border-radius: 30px;
+        overflow: hidden;
+        width: 120%;
+        text-align: center;
+        font-size: 16px;
+        letter-spacing: 1px;
+        color: purple;
+        position: relative;
+        padding-right: 52%;
+        position: relative;
+    }
+
+    .switch-button:before {
+        font-weight: bold;
+        /*content: "經血過多小測試";*/
+        content: "子宮內膜異位風險小測試";
+        position: absolute;
+        top: -5;
+        bottom: 0;
+        right: 0;
+        width: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 3;
+        pointer-events: none;
+        padding-top: 7px;
+        font-size: 15px;
+        color:#3B7195;
+    }
+
+    .switch-button-checkbox {
+        cursor: pointer;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        z-index: 2;
+    }
+
+    .switch-button-checkbox:checked+.switch-button-label:before {
+        transform: translate(-100%,-50%);
+        transition: transform 300ms linear;
+    }
+
+    .switch-button-checkbox+.switch-button-label {
+        position: relative;
+        padding: 25px 10px;
+        display: block;
+        user-select: none;
+        pointer-events: none;
+        text-align: center;
+        padding-top: 35px;
+        padding-left: 30px;
+        font-size: 15px;
+    }
+
+    .switch-button-checkbox+.switch-button-label:before {
+        content: "";
+        background: #ffff;
+        height: 80%;
+        width: 100%;
+        position: absolute;
+        left: 100%;
+        top: 55%;
+        border-radius: 20px;
+        margin-left:10px;
+        margin-right:10px;
+        transform: translate(0,-50%);
+        transition: transform 300ms;
+    }
+
+    .switch-button-checkbox+.switch-button-label .switch-button-label-span {
+        position: relative;
+    }
+
+    .Rectangle {
+        position: absolute;
+        right: 15%;
+        top: 10%;
+        width: 230px;
+        height: 313px;
+        margin: 68px 59px 0 0;
+        border-radius: 130px 0px 0px 0px;
+        background-color: #ffffff;
+    }
+
+    .image1 {
+        position: absolute;
+        right: 0%;
+        top: 7%;
+    }
+
+    .point {
+        width: 10px;
+        height: 10px;
+        margin: 7px;
+        border-radius: 50px;
+        background-color: #673b95;
+    }
+
+    .pointdiv {
+        z-index: 999;
+        position: absolute;
+        bottom: 20%;
+        left: 0%;
+        transform: translate(-50%, -50%);
+    }
+
+    .txt3 {
+        font-size: 16px;
+        font-weight: 300;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.5;
+        letter-spacing: normal;
+        color: #505050;
+    }
+
+    .txt1 {
+        color: #673b95;
+        font-weight: bold;
+    }
+
+    .txt2 {
+        color: #673b95;
+        font-weight: bold;
+    }
+
+    .alarm {
+        color: #673b95;
+    }
+
+    .report {
+        border-radius: 50px;
+    }
+	
+	.start1{
+		padding-top:15px;
+        cursor:pointer;
+	}
+
+
+    @media screen and (max-width:1000px) {
+        #image{display: none;}
+		.img-ref-mobile{display: block !important;}
+		.image_container {
+	  display: flex;
+      flex-direction: column;
+	  
+	}
+	
+
+        #image2{
+            display: block !important;
+            max-width: 100%;
+            width:100%;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        #rightside{
+            display: none;
+        }
+
+        .col-t1 {
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-bottom: 50px;
+            margin:0 auto;
+            max-width: 500px;
+        }
+
+        .txt3{
+            padding-right:10% !important;
+        }
+}
+
+.blue .txt1,.blue .alarm,.blue .txt2{
+    color:#3B7195;
+}
+
+.img-ref{font-size: 7px; text-align: justify; color: black; font-weight: normal; }
+</style>
+<script>
+    $(document).ready(function () {
+        sessionStorage.clear();
+        var topic = "secondTest";
+		
+		
+		
+        //sessionStorage.setItem('topic', 'firstTest');
+        sessionStorage.setItem('topic', 'firstTest');
+        $(".switch-button ").click(function () {
+            if (topic == "firstTest") {
+                topic = "secondTest";
+                $('.col-t1').addClass('blue');
+				$('.start1').addClass('endotest');
+				$('.start1').removeClass('selftest');
+                document.getElementById('image').src = "images/image1.jpeg";
+                document.getElementById('image2').src = "images/image1.jpeg";
+                sessionStorage.setItem('topic', 'firstTest');
+                document.getElementById('txt1').innerHTML = '子宮內膜異位風險小測試';
+                $('#rightside').css('background-color','#CEE8F4');
+                document.getElementById('txt2').innerHTML = '1分鐘';
+                document.getElementById('txt3').innerHTML = '子宮內膜異位症常出現在生育期的女性身上, 年齡可由十幾歲至更年期, 每十個有一個患上, 普遍延醫達數年。<br><br>來經時，經血倒流至盆腔內，其內膜組織到處著床於子宮腔外 (如卵巢等)，稱為子宮內膜異位症，可引起盆腔發炎，導致疼痛和難以受孕或不育。如形成朱古力瘤，或會膨脹, 嚴重時可爆裂。<br><br>常見症狀包括：經痛、盆腔/下背痛 性交期間/後疼痛或經期不規律等。';
+                document.getElementById('start1').innerHTML = '<img src="images/button2.jpg" alt="Girl in a jacket" width="180" > '
+                $(".img-ref").html("資料來源: 1) Endometriosis Research Center & Women’s Hospital, Inc. Endometriosis Screening & Education Kit Empowering Materials for Understanding and Living Well in Spite of Endometriosis. Updated Edition 2012. 2) Eskenazi B and Warner ML. Obstet Gynecol Clin North Am. 1997;24:235-258. 3) Nnoaham KE et al. Fertil Steril 2011; 96(2): 366–373. 4) Arruda MS et al. Hum Reprod 2003; 18: 756–759. 5) Endometriosis UK. Endometriosis FAQs. 6) Endometriosis UK. Endometriosis Symptoms.");
+                // document.getElementById('start1').innerHTML += '<button type="button" id="report" onclick="report()" class="btn btn-secondary btn-lg report" >回覆測試結果</button>'
+            } else {
+                topic = "firstTest";
+                $('.col-t1').removeClass('blue');
+				$('.start1').removeClass('endotest');
+				$('.start1').addClass('selftest');
+                sessionStorage.setItem('topic', 'secondTest');
+                document.getElementById('txt1').innerHTML = '經血過多小測試';
+                $('#rightside').css('background-color','#ebeaf9');
+                document.getElementById('txt2').innerHTML = '1分鐘';
+                document.getElementById('txt3').innerHTML = '月經過多的原因可能是婦科疾病, 如子宮內膜異位症、子宮肌瘤、子宮腺肌瘤等, 也可能是賀爾蒙分泌不平衡、凝血疾病或盆腔炎等。<br/><br/>月經過多可引致貧血，令女性出現頭暈或乏力等。三個有一個受此問題困擾, 但普遍啞忍而延醫一年以上。一旦患上婦科疾病，若延遲診治，或有機會導致難以受孕。長期貧血而不自覺，會對其他器官構成影響。<br/><br/>常見症狀包括：每隔1-2小時換衞生巾、出現大血塊/ 血崩、經期超過7天或已影響日常生活等。';
+                document.getElementById('image').src = "images/image2.jpeg";
+                document.getElementById('image2').src = "images/image2.jpeg";
+                document.getElementById('start1').innerHTML = '<img src="images/button.jpg" width="180" > '
+                $(".img-ref").html("資料來源: 1) J.M. Higham et al. British Journal of Obstetrics Gynaecology. August 1990, Vol. 97, pp. 734‐739 2) All about periods. Department of Health HKSAR. Family Health Service. Women Health. 3) Centersfor Disease Control and Prevention. Heavy Menstrual Bleeding. 4) Bitzer J et al. Open Access JContraception. 2013;4:21–28.");
+
+            }
+
+        });
+
+        $(".start1").click(function () {
+            let data = sessionStorage.getItem('topic');
+            if (data == "firstTest"){
+            location.replace("./endotest-form.html");
+			} else if (data == "secondTest"){
+			location.replace("./hmbtest-form.html");
+			};
+        });
+
+    });
+    function report() {
+
+        sessionStorage.setItem('topic', 'report');
+        let data = sessionStorage.getItem('topic');
+        location.replace("./endotest-form.html");
+    }
+</script>
+
+<body>
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WS6XJBM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+
+    <div class="container-fluid" style="position:relative;">
+
+        <div class="row" >
+
+            <div class="col-sm col12" >
+
+
+                <div class=" col-t1 blue">
+
+                    <div class="row" style="margin-bottom:5%; width:calc(120% - 100px); max-width:450px;">
+						<div style="font-size:26px; color:#ED7D31; margin-bottom:20px;">
+						<b>請選擇</b>
+						</div>
+					
+                        <div class="switch-button ">
+                            <input class="switch-button-checkbox" type="checkbox"></input>
+                            <label class="switch-button-label" for=""><span class="switch-button-label-span"
+                                    style="font-weight:bold; ">經血過多小測試</span></label>
+                        </div>
+						<div class="image_container">
+			            
+                        <img  id="image2" src="images/image1.jpeg" style="display: none;">
+						 
+						</div>
+                    </div>
+
+
+                    <div class="row" style="margin-bottom:5%">
+                        <p id="txt1" class='txt1' style="font-size: 26px;">子宮內膜異位風險小測試</p>
+                    </div>
+                    <div class="row" style="margin-bottom:5%">
+                        <svg class='alarm' xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                            class="bi bi-alarm" viewBox="0 0 16 16">
+                            <path
+                                d="M8.5 5.5a.5.5 0 0 0-1 0v3.362l-1.429 2.38a.5.5 0 1 0 .858.515l1.5-2.5A.5.5 0 0 0 8.5 9V5.5z" />
+                            <path
+                                d="M6.5 0a.5.5 0 0 0 0 1H7v1.07a7.001 7.001 0 0 0-3.273 12.474l-.602.602a.5.5 0 0 0 .707.708l.746-.746A6.97 6.97 0 0 0 8 16a6.97 6.97 0 0 0 3.422-.892l.746.746a.5.5 0 0 0 .707-.708l-.601-.602A7.001 7.001 0 0 0 9 2.07V1h.5a.5.5 0 0 0 0-1h-3zm1.038 3.018a6.093 6.093 0 0 1 .924 0 6 6 0 1 1-.924 0zM0 3.5c0 .753.333 1.429.86 1.887A8.035 8.035 0 0 1 4.387 1.86 2.5 2.5 0 0 0 0 3.5zM13.5 1c-.753 0-1.429.333-1.887.86a8.035 8.035 0 0 1 3.527 3.527A2.5 2.5 0 0 0 13.5 1z" />
+                        </svg>
+                        <p id="txt2" class='txt2' style="font-size: 20px;margin-left:10px">1分鐘</p>
+                    </div>
+                    <div class="row" style="margin-bottom:5%">
+                        <div class="row3t"></div>
+                    </div>
+
+                    <div class="row txt3" id="txt3" style="padding-right:30%; margin-bottom:5%">
+                        子宮內膜異位症常出現在生育期的女性身上, 年齡可由十幾歲至更年期, 每十個有一個患上, 普遍延醫達數年。<br><br>來經時，經血倒流至盆腔內，其內膜組織到處著床於子宮腔外 (如卵巢等)，稱為子宮內膜異位症，可引起盆腔發炎，導致疼痛和難以受孕或不育。如形成朱古力瘤，或會膨脹, 嚴重時可爆裂。<br><br>常見症狀包括：經痛、盆腔/下背痛 性交期間/後疼痛或經期不規律等。</div>
+
+                    <div class="row">
+                        <div class="start1 endotest" id="start1"><img src="images/button2.jpg" alt=""
+                                width="180" >
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div id="rightside" class="col-sm  " style="background-color: #ebeaf9;max-width:40%">
+                <div class='Rectangle'></div>
+				
+                <img class='image1' src="images/Capture.JPG" alt="Girl in a jacket" width="120" height="140" style="display:none;">
+			
+				<div class='pointdiv'>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                    <div class='row'>
+                        <div class='point'></div>
+                        <div class='point'></div>
+                        <div class='point'></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+			<div class="image_container">
+			<section>
+			<img class="image" id="image" src="images/image1.jpeg">
+			</section>
+               </div>
+        
+    </div>
+
+</body>
+
+</html>

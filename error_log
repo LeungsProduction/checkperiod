@@ -1,0 +1,3 @@
+[13-Aug-2021 09:30:35 UTC] PHP Warning:  Unknown: open_basedir restriction in effect. File(/home/digitiser2017/public_html/checkperiod.hk/record.php) is not within the allowed path(s): (/www/wwwroot/query.dev6.webwave.online/:/tmp/) in Unknown on line 0
+[13-Aug-2021 09:30:35 UTC] PHP Warning:  Unknown: failed to open stream: Operation not permitted in Unknown on line 0
+[13-Aug-2021 09:30:36 UTC] PHP Fatal error:  Unknown: Failed opening required '/home/digitiser2017/public_html/checkperiod.hk/record.php' (include_path='.:/opt/alt/php72/usr/share/pear') in Unknown on line 0

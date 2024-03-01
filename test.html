@@ -1,0 +1,1923 @@
+<html>
+
+<head>
+    <meta http-equiv='Content-Type' content='text/html; charset=utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./question.js"></script>
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-HZ7E2WLGV5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-HZ7E2WLGV5');
+</script>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/jspdf/dist/jspdf.umd.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vxe-table-plugin-export-pdf/fonts/source-han-sans-normal.js"></script>-->
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="mystyle.css?ver=7">
+
+	<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WS6XJBM');</script>
+<!-- End Google Tag Manager -->
+
+</head>
+<style>
+    .btnSty {
+        width: 100px;
+        margin-right: 10px;
+    }
+	
+	#q1c .counter,#q4c .counter{
+	align-items: left;
+    justify-content: left;
+	}
+    .img-ref{font-size: 7px; text-align: justify; color: black; font-weight: normal; }
+
+    .test-result-title{font-size:30px; color:#3753a4; font-weight:bold; margin-bottom: 30px;}
+    .test-result-container{border-radius: 25px;padding:20px ; background-color:#deebf7; color:black; font-weight: normal;}
+    .test-result-container>div{margin-bottom:10px;}
+    .test-result-container>div:last-child{margin-bottom:0;}
+    .test-result-tips-container{color: black; font-size: 15px; font-weight: normal; padding: 20px;}
+    .test-result-tips-container ul{margin-left: -10px;}
+    .test-result-tips-container ul li{padding-left: 10px;}
+    .snum{margin-top: 10px; display: block;}
+
+</style>
+<script>
+
+
+
+    $(function () {
+        $.getScript("https://cdn.jsdelivr.net/npm/vxe-table-plugin-export-pdf/fonts/source-han-sans-normal.js", function(){
+            console.log('loaded');
+        });
+    });
+
+    var recordArray = {
+        arrayIndex: []
+    };
+    var lastChoice = "0";
+
+    var gender = "";
+    var age = "";
+    var day = "";
+    var using = "";
+    var answerDay = 0;
+    var round = 0;
+    var game1Json = {
+        "game1": {
+            "q1": "0",
+            "q1a": "0",
+            "q1b": "0",
+            "q2": "0",
+            "q2a": "0",
+            "q2b": "0",
+            "q3": "0",
+            "q3a": "0",
+            "q3b": "0",
+            "q3c": "0",
+            "q3d": "0",
+            "q4": "0",
+            "q4a": "0",
+            "q4b": "0",
+            "q4c": "0",
+            "q4d": "0"
+        }
+    }
+
+    //
+    var findDoctor = '';
+    var hemeTest = '';
+    var medication = '';
+    //
+
+    var game1current = 1;
+    var recordScoreSum = 0;
+    var countTest = "0";
+    var recordGame1Result = 0;
+    $(document).ready(function () {
+
+        let data = sessionStorage.getItem('topic');
+        var myObj;
+
+
+
+        if (data == "secondTest") {
+            $('.col-t1').removeClass('blue');
+            document.getElementById('topic').innerHTML = '經血過多小測試';
+			$('#progress1').insertAfter($('#question'));
+			$('#daypp').insertAfter($('#submitButton'));
+            document.getElementById('question').innerHTML = yoyojson.A.a1.question;
+            document.getElementById('q1').innerHTML = yoyojson.A.a1.question1;
+
+            for (var i = 0; i < Object.keys(yoyojson.A.a1.questionchoice).length; i++) {
+
+                //yoyojson.A.a1.questionchoice[Object.keys(yoyojson.A.a1.questionchoice)[i]]
+                document.getElementById('q1c').innerHTML += "<input type='radio' onclick=checkgender1('" + i + "');saveVal('gender','" + yoyojson.A.a1.questionchoice[Object.keys(yoyojson.A.a1.questionchoice)[i]] + "')  class='btn-check' name='options-outlined' id='gender" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success' for='gender" + i + "'>" + yoyojson.A.a1.questionchoice[Object.keys(yoyojson.A.a1.questionchoice)[i]] + "</label> ";
+
+            }
+
+            document.getElementById('q2').innerHTML += "<div>" + yoyojson.A.a2.question1 + "</div>";
+
+            for (var i = 0; i < Object.keys(yoyojson.A.a2.questionchoice).length; i++) {
+
+                document.getElementById('q2c').innerHTML += "<div style='margin-bottom:1%' > <input class='form-check-input' type='radio' onclick=saveVal('age','" + yoyojson.A.a2.questionchoice[Object.keys(yoyojson.A.a2.questionchoice)[i]] + "') name='flexRadioDefault' id='flexRadioDefault1' style='margin-right:1%'>" + yoyojson.A.a2.questionchoice[Object.keys(yoyojson.A.a2.questionchoice)[i]] + "</div>";
+            }
+            document.getElementById('q3').innerHTML += "<div>" + yoyojson.A.a3.question1 + "</div>";
+
+            for (var i = 0; i < Object.keys(yoyojson.A.a3.questionchoice).length; i++) {
+
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveVal('day','" + yoyojson.A.a3.questionchoice[Object.keys(yoyojson.A.a3.questionchoice)[i]] + "')  class='day btn-check' name='options-outlined1' id='day" + i + "' autocomplete='off'  ><label style='width:100px'  class='day btn btn-outline-success' for='day" + i + "'>" + yoyojson.A.a3.questionchoice[Object.keys(yoyojson.A.a3.questionchoice)[i]] + "</label> ";
+            }
+
+            document.getElementById('q4').innerHTML += "<div>" + yoyojson.A.a4.question1 + "</div>";
+            for (var i = 0; i < Object.keys(yoyojson.A.a4.questionchoice).length; i++) {
+
+                document.getElementById('q4c').innerHTML += "<input type='radio' onclick=saveVal('using','" + yoyojson.A.a4.questionchoice[Object.keys(yoyojson.A.a4.questionchoice)[i]] + "')  class='btn-check' name='options-outlined2' id='using" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success' for='using" + i + "'>" + yoyojson.A.a4.questionchoice[Object.keys(yoyojson.A.a4.questionchoice)[i]] + "</label> ";
+
+            }
+            document.getElementById('submitButton').innerHTML += "<button class='nextButton' onclick='checkgender()'>下一頁</button>"
+            // document.getElementById('question').innerHTML = 
+
+        } else if (data == "report") {
+            document.getElementById('topic').innerHTML = '經血過多小測試報告';
+            document.getElementById('q1').innerHTML = yoyojson.report.q1;
+            document.getElementById('q1c').innerHTML = " <input type='number' id='tentacles' name='tentacles' min='10' max='100'>"
+            document.getElementById('q2').innerHTML = yoyojson.report.q2;
+            for (var i = 0; i < Object.keys(yoyojson.report.q2choice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio'    class='btn-check' name='options-outlined2' id='q1" + i + "' autocomplete='off'  ><label   class='btn btn-outline-success' for='q1" + i + "'>" + yoyojson.report.q2choice[Object.keys(yoyojson.report.q2choice)[i]] + "</label> "
+            }
+            document.getElementById('q3').innerHTML = yoyojson.report.q3;
+            for (var i = 0; i < Object.keys(yoyojson.report.q3choice).length; i++) {
+                if (i == Object.keys(yoyojson.report.q3choice).length - 1) {
+                    document.getElementById('q3c').innerHTML += "<input checked='checked'  type='radio'  class='btn-check' name='options-outlined0' id='no' autocomplete='off'  ><label   style='margin-bottom:2%' class='btn btn-outline-success' for='no'>" + yoyojson.report.q3choice[Object.keys(yoyojson.report.q3choice)[i]] + "</label> "
+                } else {
+                    document.getElementById('q3c').innerHTML += "<input  type='checkbox'  class='check btn-check' name='options-outlined3' id='q2" + i + "' autocomplete='off'  ><label   style='margin-bottom:2%' class='btn btn-outline-success' for='q2" + i + "'>" + yoyojson.report.q3choice[Object.keys(yoyojson.report.q3choice)[i]] + "</label> "
+                }
+            }
+            document.getElementById('q4').innerHTML = '本網將收集此測試結果及數據作統計之用';
+            document.getElementById('q4c').innerHTML = "<input  type='checkbox'  class=' btn-check' name='options-outlined3' id='ask' autocomplete='off'  ><label   style='margin-bottom:2%' class='btn btn-outline-success' for='ask'> 同意</label> "
+            document.getElementById('submitButton').innerHTML = "<button class='nextButton' onclick=finishReport() >提交</button>"
+        } else {
+            for (var i = 0; i < 5; i++) {
+                //   is - complete" data-step="6">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-active
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+            document.getElementById('topic').style.color = '#673b95';
+            document.getElementById('q1').style.color = '#3b7195';
+            document.getElementById('q2').style.color = '#3b7195';
+            document.getElementById('q3').style.color = '#3b7195';
+            document.getElementById('q4').style.color = '#3b7195';
+            document.getElementById('q5').style.color = '#3b7195';
+            // document.getElementById('processbar').style.setProperty('background-color', '#673b95', 'important');
+            // document.getElementById('processDay').style.color = '#673b95'
+            document.getElementById('col1').style.backgroundImage = "url('images/image3.jpeg')"
+            // document.getElementById('processbar').style.display = '';
+            // document.getElementById('processDay').innerHTML = '25%';
+            // document.getElementById('processbar2').style.height = "75%";
+            // document.getElementById('processbar').style.marginTop = "-100px"
+            document.getElementById('topic').innerHTML = '子宮內膜異位風險小測試';
+
+            document.getElementById('question').innerHTML = yoyojson.game1.q1topic;
+            document.getElementById('q1').innerHTML = yoyojson.game1.q1;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1choice).length; i++) {
+
+                document.getElementById('q1c').innerHTML += "<input type='radio'   onclick=saveGame1Datail('q1','" + yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]] + "')  class='btn-check blue' name='q1' id='q1" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q1" + i + "'>" + yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]] + "</label> ";
+                if (game1Json.game1.q1 == yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]]) {
+                    document.getElementById("q1" + i).checked = true;
+                }
+            }
+
+            document.getElementById('q2').innerHTML = yoyojson.game1.q1a;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1achoice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q1a','" + yoyojson.game1.q1achoice[Object.keys(yoyojson.game1.q1achoice)[i]] + "')  class='btn-check blue' name='q2' id='q2" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q2" + i + "'>" + yoyojson.game1.q1achoice[Object.keys(yoyojson.game1.q1achoice)[i]] + "</label> ";
+                if (game1Json.game1.q1a == yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1achoice)[i]]) {
+                    document.getElementById("q2" + i).checked = true;
+                }
+            }
+            document.getElementById('q3').innerHTML = yoyojson.game1.q1b;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1bchoice).length; i++) {
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q1b','" + yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]] + "')  class='btn-check blue' name='q3' id='q3" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q3" + i + "'>" + yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]] + "</label> ";
+                if (game1Json.game1.q1a == yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1achoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+                }
+            }
+            document.getElementById('submitButton').innerHTML += "<button id='nextButtonBlue' class='nextButton' onclick=game1NextPage()>下一頁</button>"
+            document.getElementById('nextButtonBlue').style.backgroundColor = '#3b7195';
+        }
+
+
+
+        $('.check').change(function () {
+            if (this.checked) {
+                $('#no').prop('checked', false);
+            }
+
+        });
+
+        $('#no').click(function () {
+            if (this.checked) {
+                $('.check').prop('checked', false);
+            }
+
+        });
+    });
+    function checkgender() {
+
+        if (gender == "" || age == "" || day == "" || using == "") {
+            console.log(gender, age, day, using)
+            alert("請回答所有問題")
+        } else {
+
+            nextPage();
+        }
+    }
+    function checkgender1() {
+
+    }
+    function finishReport() {
+
+        var q1 = document.getElementById('tentacles').value;
+        var q2 = document.getElementsByName('options-outlined2');
+        var ele = document.getElementsByName('options-outlined3');
+        var q3radio = document.getElementById('no').checked;
+        var q4 = document.getElementById('ask').checked
+        var result1 = 0;
+        for (i = 0; i < q2.length; i++) {
+            if (q2[i].checked) {
+                result1 = 1;
+            }
+        }
+        var result = 0;
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked) {
+                result = 1;
+            }
+        }
+
+        if (q1 == "" || result1 == 0 || q4 == false) {
+            alert('請填寫完整的答案')
+
+        } else {
+            clearElemenet('q1')
+            clearElemenet('q1c')
+            clearElemenet('q2')
+            clearElemenet('q2c')
+            clearElemenet('q3')
+            clearElemenet('q3c')
+            clearElemenet('q4')
+            clearElemenet('q4c')
+            document.getElementById('submitButton').innerHTML = "<button class='nextButton' onclick='endgame1()'>返回主頁</button>";
+            document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>謝謝你的資料，數據收集後將會用作研究日後診斷及治療此疾病。</div > "
+        }
+    }
+	const questionarray = [];
+	const resultarray = [];
+    var game1_selected = new Array();
+    var game1_result = '';
+	var qi = 0;
+    function saveGame1Datail(val, val2) {
+		qi = qi+1;
+        switch (val) {
+            case "q4": if (val2 == "男") {
+                document.getElementById("q10").checked = false;
+                alert('此評估只供女性參與')
+            } else {
+                game1Json.game1.q4 = val2
+            }
+                break;
+            case "q1": game1Json.game1.q1 = val2
+                break;
+            case "q1a": game1Json.game1.q1a = val2
+                break;
+            case "q1b": game1Json.game1.q1b = val2
+                break;
+            case "q2": game1Json.game1.q2 = val2
+                break;
+            case "q2a": game1Json.game1.q2a = val2
+                break;
+            case "q2b": game1Json.game1.q2b = val2
+                break;
+            case "q3": game1Json.game1.q3 = val2
+                break;
+            case "q3a": game1Json.game1.q3a = val2
+                break;
+            case "q3b": game1Json.game1.q3b = val2
+                break;
+            case "q3c": game1Json.game1.q3c = val2
+                break;
+            case "q3d": game1Json.game1.q3d = val2
+                break;
+            case "q4a": game1Json.game1.q4a = val2
+                break;
+            case "q4b": game1Json.game1.q4b = val2
+                break;
+            case "q4c": game1Json.game1.q4c = val2
+                break;
+            case "q4d": game1Json.game1.q4d = val2
+                break;
+
+        }
+		questionarray[qi] = val;
+		resultarray[qi] = val2;
+		
+    }
+    function checkradio(val) {
+
+        var ele = document.getElementsByName(val);
+        var result = 0;
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked) {
+                result = 1;
+            }
+        }
+        if (result == 0) {
+            return "0";
+        } else {
+            return "1";
+        }
+    }
+    function game1NextPage(val) {
+        $('html,body').scrollTop(0);
+        var q1radio = 0;
+        if (val == "Previous") {
+            game1current--;
+        } else {
+            if (game1current == 1) {
+                if (checkradio("q1") != 1 || checkradio("q2") != 1 || checkradio("q3") != 1) {
+                    alert('請填寫完此頁問卷再點擊下一頁。');
+                } else {
+
+                    game1current++;
+                }
+
+            } else if (game1current == 2) {
+                if (checkradio("q1") != 1 || checkradio("q2") != 1 || checkradio("q3") != 1) {
+                    alert('請填寫完此頁問卷再點擊下一頁。');
+                } else {
+
+                    game1current++;
+                }
+
+            } else if (game1current == 3) {
+                if (checkradio("q1") != 1 || checkradio("q2") != 1 || checkradio("q3") != 1 || checkradio("q4") != 1 || checkradio("q5") != 1) {
+                    alert('請填寫完此頁問卷再點擊下一頁。');
+                } else {
+
+                    game1current++;
+                }
+
+            }
+
+        }
+        clearElemenet('q1c');
+        clearElemenet('q2c');
+        clearElemenet('q3c');
+        clearElemenet('q4c');
+        clearElemenet('q5c');
+        clearElemenet('q1');
+        clearElemenet('q2');
+        clearElemenet('q3');
+        clearElemenet('q4');
+        clearElemenet('q5');
+        clearElemenet('submitButton');
+
+        if (game1current == 1) {
+            document.getElementById('progress1').innerHTML = '';
+            for (var i = 0; i < 5; i++) {
+
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+            // document.getElementById('processDay').innerHTML = '25%';
+            // document.getElementById('processbar2').style.height = "75%";
+            document.getElementById('question').innerHTML = yoyojson.game1.q1topic;
+            document.getElementById('q1').innerHTML = yoyojson.game1.q1;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1choice).length; i++) {
+                document.getElementById('q1c').innerHTML += "<input type='radio'   onclick=saveGame1Datail('q1','" + yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]] + "')  class='btn-check blue' name='q1' id='q1" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q1" + i + "'>" + yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]] + "</label> ";
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1choice).length; i++) {
+
+                if (game1Json.game1.q1 == yoyojson.game1.q1choice[Object.keys(yoyojson.game1.q1choice)[i]]) {
+                    document.getElementById("q1" + String(i)).checked = true;
+                }
+
+            }
+            document.getElementById('q2').innerHTML = yoyojson.game1.q1a;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1achoice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q1a','" + yoyojson.game1.q1achoice[Object.keys(yoyojson.game1.q1achoice)[i]] + "')  class='btn-check blue' name='q2' id='q2" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q2" + i + "'>" + yoyojson.game1.q1achoice[Object.keys(yoyojson.game1.q1achoice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1choice).length; i++) {
+
+                if (game1Json.game1.q1a == yoyojson.game1.q1achoice[Object.keys(yoyojson.game1.q1achoice)[i]]) {
+                    document.getElementById("q2" + i).checked = true;
+                }
+
+            }
+            document.getElementById('q3').innerHTML = yoyojson.game1.q1b;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1bchoice).length; i++) {
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q1b','" + yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]] + "')  class='btn-check blue' name='q3' id='q3" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q3" + i + "'>" + yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]] + "</label> ";
+                if (game1Json.game1.q1b == yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+                }
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q1choice).length; i++) {
+                if (game1Json.game1.q1b == yoyojson.game1.q1bchoice[Object.keys(yoyojson.game1.q1bchoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+
+
+                }
+            }
+            document.getElementById('submitButton').innerHTML += "<button class='nextButton'  id='nextButtonBlue' onclick=game1NextPage('next')>下一頁</button>"
+        } else if (game1current == 2) {
+            document.getElementById('progress1').innerHTML = '';
+            for (var i = 0; i < 5; i++) {
+
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+            // document.getElementById('processDay').innerHTML = '50%';
+            // document.getElementById('processbar2').style.height = "50%";
+            document.getElementById('question').innerHTML = yoyojson.game1.q2topic;
+            document.getElementById('q1').innerHTML = yoyojson.game1.q2;
+
+
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2choice).length; i++) {
+
+                document.getElementById('q1c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q2','" + yoyojson.game1.q2choice[Object.keys(yoyojson.game1.q2choice)[i]] + "')  class='btn-check blue' name='q1' id='q1" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q1" + i + "'>" + yoyojson.game1.q2choice[Object.keys(yoyojson.game1.q2choice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2choice).length; i++) {
+
+
+                if (game1Json.game1.q2 == yoyojson.game1.q2choice[Object.keys(yoyojson.game1.q2choice)[i]]) {
+                    document.getElementById("q1" + i).checked = true;
+                }
+            }
+            document.getElementById('q2').innerHTML = yoyojson.game1.q2a;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2achoice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q2a','" + yoyojson.game1.q2achoice[Object.keys(yoyojson.game1.q2achoice)[i]] + "')  class='btn-check blue' name='q2' id='q2" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q2" + i + "'>" + yoyojson.game1.q2achoice[Object.keys(yoyojson.game1.q2achoice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2achoice).length; i++) {
+
+                if (game1Json.game1.q2a == yoyojson.game1.q2achoice[Object.keys(yoyojson.game1.q2achoice)[i]]) {
+                    document.getElementById("q2" + i).checked = true;
+                }
+            }
+            document.getElementById('q3').innerHTML = yoyojson.game1.q2b;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2bchoice).length; i++) {
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q2b','" + yoyojson.game1.q2bchoice[Object.keys(yoyojson.game1.q2bchoice)[i]] + "')  class='btn-check blue' name='q3' id='q3" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q3" + i + "'>" + yoyojson.game1.q2bchoice[Object.keys(yoyojson.game1.q2bchoice)[i]] + "</label> ";
+                if (game1Json.game1.q2b == yoyojson.game1.q2bchoice[Object.keys(yoyojson.game1.q2bchoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+                }
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q2bchoice).length; i++) {
+
+                if (game1Json.game1.q2b == yoyojson.game1.q2bchoice[Object.keys(yoyojson.game1.q2bchoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+                }
+            }
+            document.getElementById('submitButton').innerHTML += "<button  id='nextButtonBlue' class='nextButton' onclick=game1NextPage('Previous')>上一頁</button>"
+            document.getElementById('submitButton').innerHTML += "<button style='background-color:#3b7195' id='nextButtonBlue' class='nextButton' onclick=game1NextPage('next')>下一頁</button>"
+
+        } else if (game1current == 3) {
+            document.getElementById('progress1').innerHTML = '';
+            for (var i = 0; i < 5; i++) {
+
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+            // document.getElementById('processDay').innerHTML = '75%';
+            // document.getElementById('processbar2').style.height = "25%";
+            document.getElementById('question').innerHTML = yoyojson.game1.q3topic;
+            document.getElementById('q1').innerHTML = yoyojson.game1.q3;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3choice).length; i++) {
+                document.getElementById('q1c').innerHTML += "<input type='radio'   onclick=saveGame1Datail('q3','" + yoyojson.game1.q3choice[Object.keys(yoyojson.game1.q3choice)[i]] + "')  class='btn-check blue' name='q1' id='q1" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q1" + i + "'>" + yoyojson.game1.q3choice[Object.keys(yoyojson.game1.q3choice)[i]] + "</label> ";
+                if (game1Json.game1.q3 == yoyojson.game1.q3choice[Object.keys(yoyojson.game1.q3choice)[i]]) {
+                    document.getElementById("q1" + i).checked = true;
+                }
+            } for (var i = 0; i < Object.keys(yoyojson.game1.q3choice).length; i++) {
+
+                if (game1Json.game1.q3 == yoyojson.game1.q3choice[Object.keys(yoyojson.game1.q3choice)[i]]) {
+                    document.getElementById("q1" + i).checked = true;
+                }
+            }
+            document.getElementById('q2').innerHTML = yoyojson.game1.q3a;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3achoice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q3a','" + yoyojson.game1.q3achoice[Object.keys(yoyojson.game1.q3achoice)[i]] + "')  class='btn-check blue' name='q2' id='q2" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q2" + i + "'>" + yoyojson.game1.q3achoice[Object.keys(yoyojson.game1.q3achoice)[i]] + "</label> ";
+                if (game1Json.game1.q3a == yoyojson.game1.q3achoice[Object.keys(yoyojson.game1.q3achoice)[i]]) {
+                    document.getElementById("q2" + i).checked = true;
+                }
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3achoice).length; i++) {
+
+                if (game1Json.game1.q3a == yoyojson.game1.q3achoice[Object.keys(yoyojson.game1.q3achoice)[i]]) {
+                    document.getElementById("q2" + i).checked = true;
+                }
+            }
+            document.getElementById('q3').innerHTML = yoyojson.game1.q3b;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3bchoice).length; i++) {
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q3b','" + yoyojson.game1.q3bchoice[Object.keys(yoyojson.game1.q3bchoice)[i]] + "')  class='btn-check blue' name='q3' id='q3" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q3" + i + "'>" + yoyojson.game1.q3bchoice[Object.keys(yoyojson.game1.q3bchoice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3bchoice).length; i++) {
+
+                if (game1Json.game1.q3b == yoyojson.game1.q3bchoice[Object.keys(yoyojson.game1.q3bchoice)[i]]) {
+                    document.getElementById("q3" + i).checked = true;
+                }
+            }
+            document.getElementById('q4').innerHTML = yoyojson.game1.q3c;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3cchoice).length; i++) {
+                document.getElementById('q4c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q3c','" + yoyojson.game1.q3cchoice[Object.keys(yoyojson.game1.q3cchoice)[i]] + "')  class='btn-check blue' name='q4' id='q4" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q4" + i + "'>" + yoyojson.game1.q3cchoice[Object.keys(yoyojson.game1.q3cchoice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3cchoice).length; i++) {
+
+                if (game1Json.game1.q3c == yoyojson.game1.q3cchoice[Object.keys(yoyojson.game1.q3cchoice)[i]]) {
+                    document.getElementById("q4" + i).checked = true;
+                }
+            }
+            document.getElementById('q5').innerHTML = yoyojson.game1.q3d;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3dchoice).length; i++) {
+                document.getElementById('q5c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q3d','" + yoyojson.game1.q3dchoice[Object.keys(yoyojson.game1.q3dchoice)[i]] + "')  class='btn-check blue' name='q5' id='q5" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q5" + i + "'>" + yoyojson.game1.q3dchoice[Object.keys(yoyojson.game1.q3dchoice)[i]] + "</label> ";
+
+            }
+            for (var i = 0; i < Object.keys(yoyojson.game1.q3dchoice).length; i++) {
+
+                if (game1Json.game1.q3d == yoyojson.game1.q3dchoice[Object.keys(yoyojson.game1.q3dchoice)[i]]) {
+                    document.getElementById("q5" + i).checked = true;
+                }
+            }
+            document.getElementById('submitButton').innerHTML += "<button  id='nextButtonBlue' class='nextButton' onclick=game1NextPage('Previous')>上一頁</button>"
+            document.getElementById('submitButton').innerHTML += "<button  style='background-color:#3b7195' id='nextButtonBlue' class='nextButton' onclick=game1NextPage('next')>下一頁</button>"
+
+
+        } else {
+            document.getElementById('progress1').innerHTML = '';
+            for (var i = 0; i < 5; i++) {
+
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+            // document.getElementById('processDay').innerHTML = '100%';
+            // document.getElementById('processbar2').style.height = "0%";
+            document.getElementById('question').innerHTML = yoyojson.game1.q4topic;
+            document.getElementById('q1').innerHTML = yoyojson.game1.q4;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q4choice).length; i++) {
+                document.getElementById('q1c').innerHTML += "<input type='radio'   onclick=saveGame1Datail('q4','" + yoyojson.game1.q4choice[Object.keys(yoyojson.game1.q4choice)[i]] + "')  class='btn-check blue' name='q1' id='q1" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q1" + i + "'>" + yoyojson.game1.q4choice[Object.keys(yoyojson.game1.q4choice)[i]] + "</label> ";
+            }
+            document.getElementById('q2').innerHTML = yoyojson.game1.q4a;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q4achoice).length; i++) {
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q4a','" + yoyojson.game1.q4achoice[Object.keys(yoyojson.game1.q4achoice)[i]] + "')  class='btn-check blue' name='q2' id='q2" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q2" + i + "'>" + yoyojson.game1.q4achoice[Object.keys(yoyojson.game1.q4achoice)[i]] + "</label> ";
+            }
+            document.getElementById('q3').innerHTML = yoyojson.game1.q4b;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q4bchoice).length; i++) {
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q4b','" + yoyojson.game1.q4bchoice[Object.keys(yoyojson.game1.q4bchoice)[i]] + "')  class='btn-check blue' name='q3' id='q3" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q3" + i + "'>" + yoyojson.game1.q4bchoice[Object.keys(yoyojson.game1.q4bchoice)[i]] + "</label> ";
+            }
+            document.getElementById('q4').innerHTML = yoyojson.game1.q4c;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q4cchoice).length; i++) {
+                document.getElementById('q4c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q4c','" + yoyojson.game1.q4cchoice[Object.keys(yoyojson.game1.q4cchoice)[i]] + "')  class='btn-check blue' name='q4' id='q4" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q4" + i + "'>" + yoyojson.game1.q4cchoice[Object.keys(yoyojson.game1.q4cchoice)[i]] + "</label> ";
+            }
+            document.getElementById('q5').innerHTML = yoyojson.game1.q4d;
+            for (var i = 0; i < Object.keys(yoyojson.game1.q4dchoice).length; i++) {
+                document.getElementById('q5c').innerHTML += "<input type='radio' onclick=saveGame1Datail('q4d','" + yoyojson.game1.q4dchoice[Object.keys(yoyojson.game1.q4dchoice)[i]] + "')  class='btn-check blue' name='q5' id='q5" + i + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success blue' for='q5" + i + "'>" + yoyojson.game1.q4dchoice[Object.keys(yoyojson.game1.q4dchoice)[i]] + "</label> ";
+            }
+            document.getElementById('submitButton').innerHTML += "<button id='nextButtonBlue' class='nextButton'  onclick=game1NextPage('Previous')>上一頁</button>"
+            document.getElementById('submitButton').innerHTML += "<button style='background-color:#3b7195' class='nextButton' onclick='finishGame1()'>提交</button>"
+        }
+        document.getElementById('nextButtonBlue').style.backgroundColor = '#3b7195';
+
+    }
+    function finishGame1() {
+		/*console.log(questionarray);
+		console.log(resultarray);*/
+	
+	
+        if (checkradio("q1") != 1 || checkradio("q2") != 1 || checkradio("q3") != 1 || checkradio("q4") != 1 || checkradio("q5") != 1) {
+            alert('請填寫完此頁問卷再點擊下一頁。');
+        } else {
+            // document.getElementById('processbar').style.display = 'none'
+
+            $('html,body').scrollTop(0);
+
+            clearElemenet('processDay');
+            clearElemenet('question');
+            clearElemenet('q1');
+            clearElemenet('q2');
+            clearElemenet('q3');
+            clearElemenet('q4');
+            clearElemenet('q5');
+            clearElemenet('q1c');
+            clearElemenet('q2c');
+            clearElemenet('q3c');
+            clearElemenet('q4c');
+            clearElemenet('q5c');
+            clearElemenet('submitButton')
+            for (var i = 0; i < Object.keys(game1Json.game1).length; i++) {
+                if(Object.keys(game1Json.game1)[i].indexOf("q4") != 0) {
+                    if (game1Json.game1[Object.keys(game1Json.game1)[i]] == "是") {
+                        recordGame1Result++;
+                    }
+                }
+            }
+            if (recordGame1Result >= 3) {
+                game1_result = true;
+                document.getElementById('summary').innerHTML = "<div class='test-result-title' style='color:#df6810;'>你可能患有⼦宮內膜異位症</div>"+
+                                                                "<div class='test-result-container' style='background-color:#fbe6d6;'>"+
+                                                                    "<div><b>請盡快向婦科醫⽣查詢及進⾏檢查 (如盆腔超聲波) ，並以醫⽣診斷為準。</b></div>"+
+                                                                    "<div>盡早診斷及⻑期治療，可減低病情惡化及復發的機會! ⼀旦延醫，可能會增加⼿術機會及影響⽣育能⼒!</div>"+
+                                                                    "<div>建議妳多留意往後⽉經狀況，也要關⼼妳⾝邊持續經痛的親朋密友，盡快邀請她們接受評估⼀起測試!</div>"+
+                                                                "</div>"+
+                                                                "<div class='test-result-tips-container'>"+
+                                                                    "<div style='margin-bottom:10px;'>⼦宮健康⼩貼⼠:</div>"+
+                                                                    "<div>"+
+                                                                        "<ul>"+
+                                                                            "<li>⼦宮內膜異位症是普遍的婦科疾病, 朱古⼒瘤是其中⼀種</li>"+
+                                                                            "<li>每⼗個處於⽣育期的⼥性就有⼀個患上。 不論年輕與否、曾⽣育與否，凡有⽉經的⼥性都有機會患上。</li>"+
+                                                                            "<li>常⾒症狀包括：<b>經痛、盆腔/下背痛、 經前/後疼痛、 性交期間/後疼痛、 經期不規律或經⾎過多</b>。</li>"+
+                                                                            "<li><b>盆腔超聲波是婦科醫⽣常⽤的初步檢查之⼀, 無痛且⾮⼊侵性, 也適合未有性經驗的⼥性。</b></li>"+
+                                                                            "<li>⼀旦經醫⽣確診，若情況不算嚴重，普遍會先以⼝服荷爾蒙藥物治療，減低病變。</li>"+
+                                                                        "</ul>"+
+                                                                    "</div>"+
+                                                                "</div>"+
+                                                                "<div class='img-ref'>資料來源: 1) Endometriosis Research Center & Women’s Hospital, Inc. Endometriosis Screening & Education Kit Empowering Materials for Understanding and Living Well in Spite of Endometriosis. Updated Edition 2012. 2) Eskenazi B and Warner ML. Obstet Gynecol Clin North Am. 1997;24:235-258. 3) Nnoaham KE et al. Fertil Steril 2011; 96(2): 366–373. 4) Arruda MS et al. Hum Reprod 2003; 18: 756–759. 5) Endometriosis UK. Endometriosis FAQs. 6) Endometriosis UK. Endometriosis Symptoms.</div>";                            
+             } else {
+                game1_result = false;
+                document.getElementById('summary').innerHTML = "<div class='test-result-title'>你暫時可能沒有患有⼦宮內膜異位症</div>"+
+                                                                "<div class='test-result-container'>"+
+                                                                    "<div>如有疑問，請向婦科醫⽣查詢及進⾏檢查 (如盆腔超聲波)，並以醫⽣診斷為準。</div>"+
+                                                                    "<div>由於⼦宮內膜異位症是容易復發的疾病，定期婦科檢查是有需要的，⽅可及早診治。</div>"+
+                                                                    "<div><b>妳仍然要記得留意往後⽉經狀況，也要關⼼妳⾝邊持續經痛的親朋密友，盡快邀請她們⼀起測試!</b></div>"+
+                                                                "</div>"+
+                                                                "<div class='test-result-tips-container'>"+
+                                                                    "<div style='margin-bottom:10px;'>⼦宮健康⼩貼⼠:</div>"+
+                                                                    "<div>"+
+                                                                        "<ul>"+
+                                                                            "<li>⼦宮內膜異位症是普遍的婦科疾病, 朱古⼒瘤是其中⼀種。每⼗個處於⽣育期的⼥性就有⼀個患上。</li>"+
+                                                                            "<li>不論年輕與否、曾⽣育與否，凡有⽉經的⼥性都有機會患上。</li>"+
+                                                                            "<li>常⾒症狀包括：<b>經痛、盆腔/下背痛、 經前/後疼痛、 性交期間/後疼痛、 經期不規律或經⾎過多</b>。</li>"+
+                                                                            "<li><b>盆腔超聲波是婦科醫⽣常⽤的初步檢查之⼀, 無痛且⾮⼊侵性, 也適合未有性經驗的⼥性。</b></li>"+
+                                                                        "</ul>"+
+                                                                    "</div>"+
+                                                                "</div>"+
+                                                                "<div class='img-ref'>資料來源: 1) Endometriosis Research Center & Women’s Hospital, Inc. Endometriosis Screening & Education Kit Empowering Materials for Understanding and Living Well in Spite of Endometriosis. Updated Edition 2012. 2) Eskenazi B and Warner ML. Obstet Gynecol Clin North Am. 1997;24:235-258. 3) Nnoaham KE et al. Fertil Steril 2011; 96(2): 366–373. 4) Arruda MS et al. Hum Reprod 2003; 18: 756–759. 5) Endometriosis UK. Endometriosis FAQs. 6) Endometriosis UK. Endometriosis Symptoms.</div>";                            
+            }
+
+
+            // save
+            /*game_data = {
+             'game1_selected': game1_selected,
+             'game1_result': game1_result
+             };*/
+            if(game1Json != '') {
+                $.ajax({
+                    url: 'api/game1_save.php',
+                    type: 'POST',
+                    async: false,
+                    cache: false,
+                    data: {
+                        'game1_selected': game1Json,
+                        'game1_result': game1_result
+                    },
+                    success: function(data){
+                        console.log(data);
+
+                        game1Json = '';
+
+                    }
+                });
+            }
+            //
+
+            document.getElementById('submitButton').innerHTML = "<center><button style='background-color:#3b7195'  class='nextButton' onclick='endgame1()'>返回主頁</button></center>"
+
+
+
+            document.getElementById('progress1').innerHTML = '';
+            for (var i = 0; i < 5; i++) {
+
+                if (i == 0) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第一題</span></li>"
+                } else if (i == 1) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第二題</span></li>"
+                } else if (i == 2) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第三題</span></li>"
+                } else if (i == 3) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-complete' data-step=''" + " id='status" + i + "'><span class='statusBar'>第四題</span></li>"
+                } else if (i == 4) {
+                    document.getElementById('progress1').innerHTML += "<li class='is-active' data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+                }
+
+            }
+        }
+    }
+    function endgame1() {
+        window.location.replace("./index.html");
+
+    }
+    function clearElemenet(val) {
+        document.getElementById(val).innerHTML = '';
+    }
+
+    function checkPrevious(val) {
+        if (val == "yes") {
+            var preq1c = parseInt(recordArray.arrayIndex[answerDay - 1]['q1c'])
+            var preq2c0 = parseInt(recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c0'])
+            var preq2c1 = parseInt(recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c1'])
+            var preq2c2 = parseInt(recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c2'])
+
+            var countpre = (preq2c0 + preq2c1 + preq2c2);
+
+            if (countpre != preq1c) {
+
+                alert('上一日尚未完成');
+                nextPage();
+
+            } else {
+                recordArray.arrayIndex[answerDay]['preday'] = "1";
+                recordArray.arrayIndex[answerDay]['q1c'] = recordArray.arrayIndex[answerDay - 1]['q1c'];
+                recordArray.arrayIndex[answerDay]['q2answer']['q2c0'] = recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c0'];
+                recordArray.arrayIndex[answerDay]['q2answer']['q2c1'] = recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c1'];
+                recordArray.arrayIndex[answerDay]['q2answer']['q2c2'] = recordArray.arrayIndex[answerDay - 1]['q2answer']['q2c2'];
+                recordArray.arrayIndex[answerDay]['q3answer']['q3c1'] = recordArray.arrayIndex[answerDay - 1]['q3answer']['q3c1'];
+                recordArray.arrayIndex[answerDay]['q3answer']['q3c2'] = recordArray.arrayIndex[answerDay - 1]['q3answer']['q3c2'];
+                recordArray.arrayIndex[answerDay]['q4c'] = recordArray.arrayIndex[answerDay - 1]['q4c'];
+                recordArray.arrayIndex[answerDay]['score'] = recordArray.arrayIndex[answerDay - 1]['score'];
+
+                nextPage("selected");
+                var x = document.getElementsByClassName('up');
+                var i;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = 'none';
+                }
+                var x = document.getElementsByClassName('down');
+                var i;
+                for (i = 0; i < x.length; i++) {
+                    x[i].style.display = 'none';
+                }
+            }
+            // console.log(recordArray.arrayIndex[answerDay - 1].q1c);
+            // document.getElementById('q1c').innerHTML = "<div class='counter' style='margin-left: 3%;'><span class='up' onClick='increaseCountSN(event, this)'>+</span><input id='counterSN' type='text' value=" + recordArray.arrayIndex[answerDay - 1].q1c + " disabled><span class='down' onClick='decreaseCount(event, this,\"stand\")'>-</span></div>"
+
+
+            // var x = document.getElementsByClassName('up');
+            // var i;
+            // for (i = 0; i < x.length; i++) {
+            //     x[i].style.display = 'none';
+            // }
+            // refreshTable();
+        } else {
+            var x = document.getElementsByClassName('up');
+            var i;
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = '';
+            }
+            var x = document.getElementsByClassName('down');
+            var i;
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = '';
+            }
+            recordArray.arrayIndex[answerDay]['preday'] = "2";
+
+        }
+    }
+    function nextPage(val) { 
+        //Go to Top
+        $('html,body').scrollTop(0);
+        if( parseInt(day) >= 9){
+            $("#progress1").addClass("extend");
+        }
+        if (countTest == "0") {
+            for (var i = 1; i < (parseInt(day) + 3); i++) {
+
+
+                if (i == (parseInt(day) + 1)) {
+                    document.getElementById('progress1').innerHTML += "<li data-step=''" + " id='status" + i + "'><span class='statusBar'>其他問題</span></li>"
+                } else if (i == (parseInt(day) + 2)) {
+                    document.getElementById('progress1').innerHTML += "<li data-step=''" + " id='status" + i + "'><span class='statusBar'>評估結果</span></li>"
+
+                } else {
+                    document.getElementById('progress1').innerHTML += "<li data-step=''  id = 'status" + i + "' > <span class='statusBar'>" + yoyojson.day[answerDay + i] + "</span></li > "
+                }
+
+                // <li class="is-complete" data-step="2">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-complete" data-step="3">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-complete" data-step="4">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-complete" data-step="5">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-complete" data-step="6">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li class="is-active" data-step="7">
+                //     <span class='statusBar'>123</span>
+                // </li>
+                // <li data-step="8" class="progress__last">
+                //     <span class='statusBar'>123</span>
+                // </li>'
+
+
+            }
+            for (var i = 0; i < day; i++) {
+
+                recordArray.arrayIndex.push({
+                    "answerDay": i,
+                    "preday": "0",
+                    "q1c": "1",
+                    "q2answer": {
+                        "q2c0": "0",
+                        "q2c1": "0",
+                        "q2c2": "0",
+                    },
+                    "q3answer": {
+                        "q3c1": "0",
+                        "q3c2": "0",
+                    },
+                    "q4c": "0",
+                    "score": "0"
+                });
+            }
+
+            countTest = "1";
+        }
+        if (gender == "男") {
+            alert("此評估只供女性參與");
+            // } else if (gender == "" || age == "" || day == "" || using == "") {
+            //     alert("資料不完整");
+        } else {
+            clearElemenet('question');
+            clearElemenet('q1')
+            clearElemenet('q1c')
+            clearElemenet('q2')
+            clearElemenet('q2c')
+            clearElemenet('q3')
+            clearElemenet('q3c')
+            clearElemenet('q4')
+            clearElemenet('q4c')
+            clearElemenet('submitButton')
+            clearElemenet('summary');
+            document.getElementById('samequestion').style.display = '';
+            document.getElementById('same').style.display = ''
+
+            if (val == "Previous") {
+                answerDay--;
+
+            }
+            if (answerDay == 0) {
+                document.getElementById('samequestion').style.display = 'none';
+                document.getElementById('same').style.display = 'none'
+            }
+            if (answerDay < day) {
+
+                refreshTable();
+                if (answerDay != 0) {
+                    document.getElementById('samequestion').innerHTML = "來經情況(包括流量,衛生巾數目,血塊/血崩出現) 跟前一日一樣?";
+                    document.getElementById('same').innerHTML = "<input type='radio' onclick=checkPrevious('yes')  class='btn-check' name='options-outlined5' id='yes" + "' autocomplete='off'   ><label style='width:100px'  class='btn btn-outline-success' for='yes'>是</label> ";
+                    document.getElementById('same').innerHTML += "<input type='radio' onclick=checkPrevious('no')  class='btn-check' name='options-outlined5' id='no" + "' autocomplete='off'  ><label style='width:100px'  class='btn btn-outline-success' for='no'>否</label> ";
+
+                }
+                for (var i = 1; i < (parseInt(day) + 1); i++) {
+                    if (parseInt(answerDay + 1) == i) {
+
+                        document.getElementById("status" + i).className = "is-active"
+                    } else if (parseInt(answerDay + 1) > i) {
+
+                        document.getElementById(("status" + i)).className = "is-complete"
+                    } else {
+                        document.getElementById(("status" + i)).className = ""
+                    }
+                }
+
+
+                document.getElementById('question').innerHTML = yoyojson.day[answerDay + 1];
+                // document.getElementById('processbar').style.display = '';
+
+                for (var e = 0; e < recordArray.arrayIndex.length; e++) {
+
+                    if (recordArray.arrayIndex[e].answerDay == answerDay) {
+
+
+                        var processResult = 100 - (((answerDay + 1) / day) * 100);
+                        var processBarResult = parseInt(((answerDay + 1) / day) * 100);
+                        // document.getElementById('processDay').innerHTML = processBarResult + "%";
+                        // document.getElementById('processbar2').style.height = processResult + "%";
+                        if (using == "衛生巾") {
+                            document.getElementById('q1').innerHTML = yoyojson.B.q1;
+                        } else {
+                            document.getElementById('q1').innerHTML = yoyojson.C.q1;
+                        }
+                        document.getElementById('q1c').innerHTML = "<div class='counter' style='margin-left: 9%;'><span class='up' onClick='increaseCountSN(event, this)'>+</span><input id='counterSN' type='text' value=" + recordArray.arrayIndex[e].q1c + " disabled><span class='down' onClick='decreaseCount(event, this,\"stand\")'>-</span></div>"
+                        if (using == "衛生巾") {
+                            document.getElementById('q2').innerHTML = yoyojson.B.q2;
+                        } else {
+                            document.getElementById('q2').innerHTML = yoyojson.C.q2;
+                        }
+                        // if (val == "samePre") {
+                        //     clearElemenet('counterImage');
+                        //     clearElemenet('counterImage1');
+                        //     clearElemenet('submitButton');
+                        // }
+                        document.getElementById('q2c').innerHTML = "<div class='container' id='container'></div>";
+                        document.getElementById('container').innerHTML += "<div id='counterImage' class='row'></div>";
+
+                        if (using == "衛生巾") {
+                            for (var i = 0; i < Object.keys(yoyojson.B.q2Img).length; i++) {
+								if(yoyojson.B.q2Img[Object.keys(yoyojson.B.q2Img)[i]]=="images/img1.png"){
+									var outtxt = "<span class='snum'>少量</span>";
+								}
+								if(yoyojson.B.q2Img[Object.keys(yoyojson.B.q2Img)[i]]=="images/img2.png"){
+									var outtxt = "<span class='snum'>中量</span>";
+								}
+								if(yoyojson.B.q2Img[Object.keys(yoyojson.B.q2Img)[i]]=="images/img3.png"){
+									var outtxt = "<span class='snum'>多量</span>";
+								}
+                                document.getElementById('counterImage').innerHTML += " <div class='col-md-3'><center>"+outtxt+"<br><img width='200px'  height='150px' src='" + yoyojson.B.q2Img[Object.keys(yoyojson.B.q2Img)[i]] + "' ></center><div class='counter'><span class='up' onClick='increaseCount(event, this,\"flow\")'>+</span><input id='counterFlow" + i + "'type='text' value=" + recordArray.arrayIndex[e].q2answer['q2c' + i] + " disabled><span class='down' onClick='decreaseCount(event, this)'>-</span></div>"
+                            }
+                        } else {
+                            for (var i = 0; i < Object.keys(yoyojson.C.q2Img).length; i++) {
+								if(yoyojson.C.q2Img[Object.keys(yoyojson.C.q2Img)[i]]=="images/img4.png"){
+									var outtxt = "<span class='snum'>少量</span>";
+								}
+								if(yoyojson.C.q2Img[Object.keys(yoyojson.C.q2Img)[i]]=="images/img5.png"){
+									var outtxt = "<span class='snum'>中量</span>";
+								}
+								if(yoyojson.C.q2Img[Object.keys(yoyojson.C.q2Img)[i]]=="images/img6.png"){
+									var outtxt = "<span class='snum'>多量</span>";
+								}
+                                document.getElementById('counterImage').innerHTML += " <div class='col-md-3'><center>"+outtxt+"<br><img width='200px'  height='150px' src='" + yoyojson.C.q2Img[Object.keys(yoyojson.C.q2Img)[i]] + "' ></center><div class='counter'><span class='up' onClick='increaseCount(event, this,\"flow\")'>+</span><input id='counterFlow" + i + "'type='text' value=" + recordArray.arrayIndex[e].q2answer['q2c' + i] + " disabled><span class='down' onClick='decreaseCount(event, this)'>-</span></div>"
+                            }
+                        }
+                        document.getElementById('q3').innerHTML = yoyojson.B.q3;
+                        document.getElementById('q3c').style.maxWidth = "100%"
+                        document.getElementById('q3c').innerHTML += "<div class='container' id='container1'></div>";
+                        document.getElementById('container1').innerHTML += "<div id='counterImage1' class='row'></div>";
+                        document.getElementById('counterImage1').innerHTML = "";
+                        for (var i = 0; i < Object.keys(yoyojson.B.q3Img).length; i++) {
+
+                            if (i == 0) {
+                                document.getElementById('counterImage1').innerHTML += " <div class='col-md-3'><center><span class='snum'>小 (體積如港幣伍毫)</span><br><img width='150px' src='" + yoyojson.B.q3Img[Object.keys(yoyojson.B.q3Img)[i]] + "' ></center><div class='counter'><span class='up' onClick='increaseCount(event, this,\"blood\") '>+</span><input id='counterBlood" + i + "'type='text' value=" + recordArray.arrayIndex[e].q3answer['q3c' + (i + 1)] + " disabled><span class='down' onClick='decreaseCount(event, this)'>-</span></div>"
+                            } else {
+                                document.getElementById('counterImage1').innerHTML += " <div class='col-md-3'><center><span class='snum'>大 (體積如港幣伍元)</span><br><img width='150px' src='" + yoyojson.B.q3Img[Object.keys(yoyojson.B.q3Img)[i]] + "' ></center><div class='counter'><span class='up' onClick='increaseCount(event, this,\"blood\") '>+</span><input id='counterBlood" + i + "'type='text' value=" + recordArray.arrayIndex[e].q3answer['q3c' + (i + 1)] + " disabled><span class='down' onClick='decreaseCount(event, this)'>-</span></div>"
+                            }
+                        }
+                        document.getElementById('q4').innerHTML = yoyojson.B.q4;
+                        document.getElementById('q4c').innerHTML = "<div class='counter' style='margin-left: 9%;'><span class='up' onClick='increaseCount(event, this)'>+</span><input id='counterBloodc' type='text' value='" + recordArray.arrayIndex[e]['q4c'] + "' disabled><span class='down' onClick='decreaseCount(event, this)'>-</span></div>"
+                        document.getElementById('submitButton').innerHTML = "";
+                        if (answerDay != 0) {
+                            document.getElementById('submitButton').innerHTML += "<button class='nextButton' onclick=nextPage('Previous')>上一日</button>"
+                        }
+                        document.getElementById('submitButton').innerHTML += "<button class='nextButton' onclick='saveDetail(),nextPage()'>下一日</button>"
+
+                        round++;
+                        if (recordArray.arrayIndex[e].preday == "1") {
+                            document.getElementById('yes').checked = true;
+                            var x = document.getElementsByClassName('up');
+                            var i;
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = 'none';
+                            }
+                            var x = document.getElementsByClassName('down');
+                            var i;
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = 'none';
+                            }
+                        } else if (recordArray.arrayIndex[e].preday == "2") {
+                            document.getElementById('no').checked = true;
+                            var x = document.getElementsByClassName('up');
+                            var i;
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = '';
+                            }
+                            var x = document.getElementsByClassName('down');
+                            var i;
+                            for (i = 0; i < x.length; i++) {
+                                x[i].style.display = '';
+                            }
+                        }
+                    }
+                }
+
+            } else {
+                for (var i = 1; i < (parseInt(day) + 1); i++) {
+
+                    document.getElementById("status" + (parseInt(day) + 1)).className = "is-active";
+                    document.getElementById(("status" + i)).className = "is-complete"
+                    // } else if (parseInt(answerDay + 1) > i) {
+
+                    //     document.getElementById(("status" + i)).className = "is-complete"
+                    // } else {
+                    //     document.getElementById(("status" + i)).className = ""
+                    // }
+                }
+                document.getElementById('samequestion').style.display = 'none';
+                document.getElementById('same').style.display = 'none';
+                document.getElementById('processday1').style.display = 'none';
+                document.getElementById('processDay').style.display = 'none';
+                // document.getElementById('processbar').style.display = 'none';
+                document.getElementById('process').innerHTML = '';
+                document.getElementById('q1').innerHTML = yoyojson.B.q5;
+                for (var i = 0; i < Object.keys(yoyojson.B.q5Choice).length; i++) {
+
+
+                    document.getElementById('q1c').innerHTML += "<input type='radio' onclick= nextPage2('q5" + i + "') class='day btn-check' name='nextQ5' id='q5" + i + "' autocomplete='off'  ><label style='width:200px'  class='day btn btn-outline-success' for='q5" + i + "'>" + yoyojson.B.q5Choice[Object.keys(yoyojson.B.q5Choice)[i]] + "</label> ";
+                }
+
+                //   document.getElementById('q1').innerHTML = "請問你現在或曾經因為經血過多或貧血服用以下藥物治療?";
+                //   for (var i = 0; i < Object.keys(yoyojson.B.q5Choice).length; i++) {
+
+
+                //      document.getElementById('q1c').innerHTML += "<input type='radio' onclick=finish('" + i + "')  class='day btn-check' name='options-outlined1' id='q5" + i + "' autocomplete='off'  ><label   class='day btn btn-outline-success' for='q5" + i + "'>" + yoyojson.B.q5Choice[Object.keys(yoyojson.B.q5Choice)[i]] + "</label> ";
+                //  }
+            }
+
+        }
+        
+    }
+    function nextPage2(val) {
+        document.getElementById('submitButton').innerHTML = ''
+        if (val == 'q50') {
+            document.getElementById('q2').innerHTML = yoyojson.B.q6;
+            document.getElementById('q2c').innerHTML = '';
+            document.getElementById('summary').innerHTML = '';
+            document.getElementById('q1c').innerHTML = '';
+            document.getElementById('q1').innerHTML = '';
+            for (var i = 0; i < Object.keys(yoyojson.B.q6Choice).length; i++) {
+
+
+                document.getElementById('q2c').innerHTML += "<input type='radio' onclick= testResult('q6" + i + "') class='day btn-check' name='nextQ6' id='q6" + i + "' autocomplete='off'  ><label style='width:300px; height:60px ;padding:10px'  class='day btn btn-outline-success' for='q6" + i + "'>" + yoyojson.B.q6Choice[Object.keys(yoyojson.B.q6Choice)[i]] + "</label> ";
+            }
+
+            //
+            findDoctor = '曾';
+            //
+        } else {
+            document.getElementById('q1c').innerHTML = '';
+            document.getElementById('q1').innerHTML = '';
+            document.getElementById('q2').innerHTML = '';
+            document.getElementById('q2c').innerHTML = '';
+            document.getElementById('q3').innerHTML = '';
+            document.getElementById('q3c').innerHTML = '';
+            //
+            findDoctor = '否';
+            //
+            finish();
+        }
+    }
+
+    function testResult(val) {
+        //
+        hemeTest = $('label[for="'+val+'"]').text();
+        //
+
+        if (val == 'q60' || val == 'q68') {
+            document.getElementById('q2').innerHTML = '';
+            document.getElementById('q2c').innerHTML = '';
+            document.getElementById('q3').innerHTML = '';
+            document.getElementById('q3c').innerHTML = '';
+            finish();
+
+        } else {
+            document.getElementById('q2').innerHTML = '';
+            document.getElementById('q2c').innerHTML = '';
+            document.getElementById('q3').innerHTML = '';
+            document.getElementById('q3c').innerHTML = '';
+            document.getElementById('q3').innerHTML = yoyojson.B.q7;
+            for (var i = 0; i < Object.keys(yoyojson.B.q7Choice).length; i++) {
+
+                // onclick=finish('" + i + "')
+                document.getElementById('q3c').innerHTML += "<input type='radio' onclick=triggerLast('" + i + "')  class='day btn-check' name='options-outlined" + i + "' id='q7" + i + "' autocomplete='off'  ><label   class='day btn btn-outline-success' for='q7" + i + "'>" + yoyojson.B.q7Choice[Object.keys(yoyojson.B.q7Choice)[i]] + "</label> ";
+            }
+
+            document.getElementById('q4').innerHTML = "<button class='nextButton' onclick='finish(" + lastChoice + ")'>提交</button>"
+        }
+    }
+    function triggerLast(val) {
+
+        if (val == "8") {
+            for (var i = 0; i < Object.keys(yoyojson.B.q7Choice).length - 1; i++) {
+                document.getElementById("q7" + i).checked = false;
+            }
+            lastChoice = "1";
+        } else {
+            lastChoice = "8"
+            document.getElementById("q78").checked = false;
+        }
+
+        medication = '';
+        for (var i = 0; i < Object.keys(yoyojson.B.q7Choice).length; i++) {
+            if(document.getElementById("q7" + i).checked === true ){
+                if(medication != ''){
+                    medication += ', ';
+                }
+                medication += $('label[for="q7'+i+'"]').text();
+            }
+        }
+    }
+    function check() {
+        recordScoreSum = 0;
+
+        for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+            recordScoreSum += parseInt(recordArray.arrayIndex[i].score);
+        }
+        var today = new Date();
+        var dd = today.getDate();
+
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
+
+        today = dd + '/' + mm + '/' + yyyy;
+
+        // gen pdf
+        var doc = new jspdf.jsPDF();
+
+        // 添加并设置字体
+        doc.addFont('SourceHanSans-Normal.ttf', 'SourceHanSans-Normal', 'normal');
+        doc.setFont('SourceHanSans-Normal');
+        if (recordScoreSum < 100) {
+            doc.setFontSize(11)
+            doc.text(today, 10, 10)
+            doc.text("經血過多小測試", 160, 10)
+
+            doc.setFontSize(22)
+            doc.text("是次月經記錄的評估分數*:" + recordScoreSum, 50, 30)//闊 高
+            doc.setFontSize(15)
+
+            var strArr = doc.splitTextToSize("據血液流失評估圖表 (PBAC) 研究指，100分或以下顯示你可能暫未有經血過多的現象*，但仍有需要留意日後每月來經的情況及變化。如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。由於經血過多可隨時因各種原因引致，亦可影響子宮健康狀況。建議定期進行婦科檢查，及早診斷及如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。治療。血紅素測試是婦科醫生常用的診斷方法 ", 140)
+            doc.text(`據研究指，100分或以下顯⽰你可能暫未有經⾎過多的現象*，`, doc.internal.pageSize.getWidth() / 2, 50, { align: 'center' });
+            doc.text(`但往後來經情況仍可能會有變化, 請繼續留意！`, doc.internal.pageSize.getWidth() / 2, 57, { align: 'center' });
+            //doc.text(`意日後每月來經的情況及變化。`, doc.internal.pageSize.getWidth() / 2, 64, { align: 'center' });
+
+            // doc.textWithLink('Hello World!', 25, 25, { url: 'https://www.example.com/' });
+            doc.text(`如有疑問，請向婦科醫⽣查詢及進⾏檢查，並以醫⽣診斷為準。`, doc.internal.pageSize.getWidth() / 2, 75, { align: 'center' });
+            doc.text(`有需要時，可攜同此評估結果前往求診。`, doc.internal.pageSize.getWidth() / 2, 82, { align: 'center' });
+            doc.text(`由於經⾎過多或因各種原因/疾病引致，`, doc.internal.pageSize.getWidth() / 2, 89, { align: 'center' });
+            doc.text(`可影響⼦宮健康狀況及引致貧⾎，`, doc.internal.pageSize.getWidth() / 2, 96, { align: 'center' });
+            doc.text(`建議定期進⾏婦科檢查，預防勝於治療。`, doc.internal.pageSize.getWidth() / 2, 103, { align: 'center' });
+            //doc.text(`試，煩請到本網提交測試結果作統計之用。`, doc.internal.pageSize.getWidth() / 2, 110, { align: 'center' });
+            //doc.text(`<<列印此評估報告>>`, doc.internal.pageSize.getWidth() / 2, 117, { align: 'center' });
+            //doc.text(`據血液流失評估圖表 (PBAC) 研究指，100分或以上顯`, doc.internal.pageSize.getWidth() / 2, 123, { align: 'center' });
+
+
+
+            // var strArr2 = doc.splitTextToSize("如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。由於經血過多可隨時因各種原因引致，亦可影響子宮健康狀況(想了解更多, 可到經血過多)。建議定期進行婦科檢查，及早診斷及治療。血紅素測試是婦科醫生常用的診斷方法。如日後完成測試，煩請到本網提交測試結果作統計之用。", 140)
+            // doc.text(strArr2, 35, 80);
+            // doc.text("<<列印此評估報告>>", 70, 115);
+            doc.setFontSize(11);
+            doc.text("PBAC = pictorial blood loss assessment chart", 80, 260);
+            var strArr = doc.splitTextToSize("*參考資料: J. M. Higham et al. British Journal of Obstetrics and Gynaecology. August 1990, Vol. 97. pp 734-739", 120)
+            doc.text(strArr, 80, 270);
+            doc.setFontSize(11)
+            let pageInfo = doc.internal.getCurrentPageInfo();
+            // doc.textWithLink('https://www.your-life.hk/zh/hmb-test/', 0, 295, { url: 'https://www.your-life.hk/zh/hmb-test/' });
+            doc.text("1/2", 200, 295);
+            //  doc.text("據血液流失評估圖表 (PBAC) 研究指，100分或以下顯示你可能暫未有經血過多的現象 *，但仍有需要留意日後每月來經的情況及變化。", 30, 40)
+
+            doc.addPage();
+            var posloc =30;
+            doc.setFontSize(15);
+            for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                //console.log(123);
+                var day = i+1;
+                if (using == "衛生巾") {
+                    //console.log("aaa");
+                    //doc.text(`據血液流失評估圖表 (PBAC) 研究指，100分或以上顯`, doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    doc.text("第"+day+"日總結 - 你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生巾:",doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text(recordArray.arrayIndex[i].q2answer['q2c0'] + "塊處於少量流量,"+ recordArray.arrayIndex[i].q2answer['q2c1'] + "塊處於中量流量,"+ recordArray.arrayIndex[i].q2answer['q2c2'] + "塊處於多量流量", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text("小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次, 大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+12;
+
+                } else {
+                    //console.log("bbb");
+                    doc.text("第"+day+"日總結 - 你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生綿條:",doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text( recordArray.arrayIndex[i].q2answer['q2c0'] + "塊處於少量流量,"+ recordArray.arrayIndex[i].q2answer['q2c1'] + "塊處於中量流量,"+ recordArray.arrayIndex[i].q2answer['q2c2'] + "塊處於多量流量", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text("小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次, 大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+12;
+                    //doc.text("第日總結 - 你全日總共用了"  + recordArray.arrayIndex[i].q1c + "塊衛生棉條: 有" + recordArray.arrayIndex[i].q2answer['q2c0'] + "塊衛生棉條處於少量流量, 有" + recordArray.arrayIndex[i].q2answer['q2c1'] + "塊衛生棉條處於中量流量, 有" + recordArray.arrayIndex[i].q2answer['q2c2'] + "塊衛生棉條處於多量流量, 小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次,大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次<br/><br/>", doc.internal.pageSize.getWidth() / 2, 71, { align: 'left' });
+                }
+            }
+            doc.text("2/2", 200, 295);
+        } else {
+            doc.setFontSize(11)
+            doc.text(today, 10, 10)
+            doc.text("經血過多小測試", 160, 10)
+
+            doc.setFontSize(22)
+            doc.text("是次月經記錄的評估分數*:" + recordScoreSum, 50, 30)//闊 高
+            doc.setFontSize(15)
+
+            doc.text(`據研究指，100分以上顯⽰你可能有經⾎過多的現象*，`, doc.internal.pageSize.getWidth() / 2, 50, { align: 'center' });
+            doc.text(`有需要密切留意往後來經的情況及變化！`, doc.internal.pageSize.getWidth() / 2, 57, { align: 'center' });
+            //.text(`果`, doc.internal.pageSize.getWidth() / 2, 64, { align: 'center' });
+            //doc.text(`盡快到婦科醫生求診及做檢查作準，`, doc.internal.pageSize.getWidth() / 2, 71, { align: 'center' });
+
+            // doc.textWithLink('Hello World!', 25, 25, { url: 'https://www.example.com/' });
+            doc.text(`建議盡早向婦科醫⽣查詢及進⾏檢查，並以醫⽣診斷為準。`, doc.internal.pageSize.getWidth() / 2, 90, { align: 'center' });
+            doc.text(`如有需要，請記得攜同此評估結果前往求診。`, doc.internal.pageSize.getWidth() / 2, 97, { align: 'center' });
+            doc.text(`由於經⾎過多或因各種原因/ 疾病引致，`, doc.internal.pageSize.getWidth() / 2, 104, { align: 'center' });
+            doc.text(`可影響⼦宮健康狀況及引致貧⾎，建議及早診治。`, doc.internal.pageSize.getWidth() / 2, 111, { align: 'center' });
+            doc.text(`⼀旦延醫，有機會為⾝體帶來⻑遠影響。`, doc.internal.pageSize.getWidth() / 2, 118, { align: 'center' });
+            //doc.text(`<<列印此評估報告>>`, doc.internal.pageSize.getWidth() / 2, 130, { align: 'center' });
+            doc.setFontSize(11);
+            // var strArr2 = doc.splitTextToSize("如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。由於經血過多可隨時因各種原因引致，亦可影響子宮健康狀況(想了解更多, 可到經血過多)。建議定期進行婦科檢查，及早診斷及治療。血紅素測試是婦科醫生常用的診斷方法。如日後完成測試，煩請到本網提交測試結果作統計之用。", 140)
+            // doc.text(strArr2, 35, 80);
+            // doc.text("<<列印此評估報告>>", 70, 115);
+            doc.text("PBAC = pictorial blood loss assessment chart", 80, 260);
+            var strArr = doc.splitTextToSize("*參考資料: J. M. Higham et al. British Journal of Obstetrics and Gynaecology. August 1990, Vol. 97. pp 734-739", 120)
+            doc.text(strArr, 80, 270);
+            doc.setFontSize(11)
+            let pageInfo = doc.internal.getCurrentPageInfo();
+            //doc.textWithLink('https://www.your-life.hk/zh/hmb-test/', 0, 295, { url: 'https://www.your-life.hk/zh/hmb-test/' });
+            doc.text("1/1", 200, 295);
+
+            doc.addPage();
+            var posloc = 30;
+            doc.setFontSize(15);
+            for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                //console.log(123);
+                var day = i+1;
+                if (using == "衛生巾") {
+                    //console.log("aaa");
+                    //doc.text(`據血液流失評估圖表 (PBAC) 研究指，100分或以上顯`, doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    doc.text("第"+day+"日總結 - 你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生巾:",doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text(recordArray.arrayIndex[i].q2answer['q2c0'] + "塊處於少量流量,"+ recordArray.arrayIndex[i].q2answer['q2c1'] + "塊處於中量流量,"+ recordArray.arrayIndex[i].q2answer['q2c2'] + "塊處於多量流量", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text("小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次, 大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+12;
+
+                } else {
+                    //console.log("bbb");
+                    doc.text("第"+day+"日總結 - 你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生綿條:",doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text(recordArray.arrayIndex[i].q2answer['q2c0'] + "塊處於少量流量,"+ recordArray.arrayIndex[i].q2answer['q2c1'] + "塊處於中量流量,"+ recordArray.arrayIndex[i].q2answer['q2c2'] + "塊處於多量流量", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+6;
+                    doc.text("小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次, 大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次", doc.internal.pageSize.getWidth() / 2, posloc, { align: 'center' });
+                    posloc = parseInt(posloc)+12;
+                    //doc.text("第日總結 - 你全日總共用了"  + recordArray.arrayIndex[i].q1c + "塊衛生棉條: 有" + recordArray.arrayIndex[i].q2answer['q2c0'] + "塊衛生棉條處於少量流量, 有" + recordArray.arrayIndex[i].q2answer['q2c1'] + "塊衛生棉條處於中量流量, 有" + recordArray.arrayIndex[i].q2answer['q2c2'] + "塊衛生棉條處於多量流量, 小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次,大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次<br/><br/>", doc.internal.pageSize.getWidth() / 2, 71, { align: 'left' });
+                }
+            }
+        }
+
+        doc.save('a4.pdf');
+
+        return false;
+
+    }
+
+    function finish(val) {
+        $('html, body').animate({scrollTop: 0}, 500);
+        for (var i = 1; i < (parseInt(day) + 1); i++) {
+            console.log(parseInt(day) + 1);
+            document.getElementById("status" + (parseInt(day) + 2)).className = "is-active";
+            document.getElementById("status" + (parseInt(day) + 1)).className = "is-complete";
+            document.getElementById(("status" + i)).className = "is-complete"
+        }
+        document.getElementById('q4').innerHTML = '';
+        recordScoreSum = 0;
+        document.getElementById('q3').innerHTML = '';
+        document.getElementById('q3c').innerHTML = '';
+        document.getElementById('submitButton').innerHTML = ''
+        for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+            recordScoreSum += parseInt(recordArray.arrayIndex[i].score);
+        }
+		
+		/*
+        if (recordScoreSum >= 80 && 99 >= recordScoreSum) {
+            document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>是次月經記錄的評估分數*: " + recordScoreSum + " ，據血液流失評估圖表 (PBAC) 研究指，100分或以下顯示你可能暫未有經血過多的現象*，但仍有需要留意日後每月來經的情況及變化。如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。由於經血過多可隨時因各種原因引致，亦可影響子宮健康狀況。建議定期進行婦科檢查，及早診斷及如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。治療。血紅素測試是婦科醫生常用的診斷方法 。 <br><br></div > "
+
+        } else if (recordScoreSum < 80) {
+            document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>是次月經記錄的評估分數*: " + recordScoreSum + " ，顯示你暫未有經血過多的現象。由於經血過多可隨時因各種原因引致，亦可影響子宮狀況及生育能力 (如想了解更多, 可到經血過多)，所以不能忽視每次來經情況及變化，定期婦科檢查更是有需的。如有懷疑或疑問，請先向婦科醫生求診，廷誤診斷只會令你日後難以治療。 <br><br> </div > "
+
+        } else if (recordScoreSum >= 100) {
+            if (val == "8") {
+                document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>根據評估結果，你的得分為 " + recordScoreSum + " ，顯示你有經血過多的現象。忠心建議攜同此評估結果，盡快到婦科醫生求診及做檢查。及早讓婦科醫生診斷及治療，可避免因經血過多而影響子宮狀況及生育能力 (如想了解更多, 可到經血過多)。<br><br> 如日後獲知血紅素測試結果，煩請回覆測試結果(link to the page '') 作統計之用。 你的資料會絕對保密，數據收集後將會用作研究日後診斷及治療此疾病。 <br><br>  </div>"
+
+            } else {
+                document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>根據評估結果，你的得分為 " + recordScoreSum + " ，顯示你有經血過多的現象。如日後到婦科醫生覆診，有需要時可攜同此評估結果作參考。經血過多可影響子宮狀況及生育能力，如發現親朋好友也有懷疑，請加以提點盡早求診及治療 (如想了解更多, 可到經血過多)。  你的資料會絕對保密，數據收集後將會用作研究日後診斷及治療此疾病。 <br><br>  </div>"
+
+            }
+        }*/
+		
+		 if (recordScoreSum < 100) {
+            //document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>是次月經記錄的評估分數*: " + recordScoreSum + " ，據血液流失評估圖表 (PBAC) 研究指，100分或以下顯示你可能暫未有經血過多的現象*，但仍有需要留意日後每月來經的情況及變化。如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。由於經血過多可隨時因各種原因引致，亦可影響子宮健康狀況。建議定期進行婦科檢查，及早診斷及如有疑問，請向婦科醫生查詢及進行檢查，並以醫生診斷為準。治療。血紅素測試是婦科醫生常用的診斷方法 。 <br><br></div > "
+            document.getElementById('summary').innerHTML = "<div class='test-result-title' style='color:#5e2282;'>是次月經記錄的評估分數: " + recordScoreSum + "<br>據研究指，100分或以下顯⽰你可能暫未有經⾎過多的現象*，<br>但往後來經情況仍可能會有變化, 請繼續留意！</div>"+
+                                                            "<div class='test-result-container' style='background-color:#fbd9fe;'>"+
+                                                                "<div>如有疑問，請向婦科醫⽣查詢及進⾏檢查，並以醫⽣診斷為準。有需要時，可攜同此評估結果前往求診。由於經⾎過多或因各種原因/疾病引致，可影響⼦宮健康狀況及引致貧⾎，建議定期進⾏婦科檢查，預防勝於治療。</div>"+
+                                                            "</div>"+
+                                                            "<div class='test-result-tips-container'>"+
+                                                                "<div style='margin-bottom:10px;'>⼦宮健康⼩貼⼠:</div>"+
+                                                                "<div>"+
+                                                                    "<ul>"+
+                                                                        "<li>經⾎過多是普遍的婦科問題, 每三個處於⽣育期的⼥性就有⼀個深受此困擾，卻沒有求醫。</li>"+
+                                                                        "<li>背後原因可能是⼦宮疾病 (如肌瘤、腺肌症、⼦宮內膜增⽣等)、賀爾蒙分泌不平衡、凝⾎疾病或盆腔炎等。</li>"+
+                                                                        "<li><b>常⾒症狀包括: ⽉經超過7天、每隔1-2⼩時便要更換衞⽣⼱、出現⾎塊/ ⾎崩、影響⽇常⽣活、經期間感到頭暈/疲倦等。</b>。</li>"+
+                                                                        "<li><b>⾎紅素測試及盆腔超聲波檢查等，都是醫⽣常⽤的診斷⽅法之⼀, 也適合未有性經驗的⼥性。</b></li>"+
+                                                                    "</ul>"+
+                                                                "</div>"+
+                                                            "</div>"+
+                                                            "<div class='img-ref'>資料來源: 1) J.M. Higham et al. British Journal of Obstetrics Gynaecology. August 1990, Vol. 97, pp. 734‐739 2) All about periods. Department of Health HKSAR. Family Health Service. Women Health. 3) Centers for Disease Control and Prevention. Heavy Menstrual Bleeding. 4) Bitzer J et al. Open Access J Contraception. 2013;4:21–28.</div>";           
+        } else if (recordScoreSum >= 100) {
+            //document.getElementById('summary').innerHTML = "<div style='  border: 2px solid #673b95;border-radius: 25px;padding:20px '>是次月經記錄的評估分數*: " + recordScoreSum + " ，顯示你暫未有經血過多的現象。由於經血過多可隨時因各種原因引致，亦可影響子宮狀況及生育能力 (如想了解更多, 可到經血過多)，所以不能忽視每次來經情況及變化，定期婦科檢查更是有需的。如有懷疑或疑問，請先向婦科醫生求診，廷誤診斷只會令你日後難以治療。 <br><br> </div > "
+            document.getElementById('summary').innerHTML = "<div class='test-result-title' style='color:#f39e22;'>是次月經記錄的評估分數: " + recordScoreSum + "<br>據研究指，100分以上顯⽰你可能有經⾎過多的現象*，有需要密切留意往後來經的情況及變化！</div>"+
+                                                            "<div class='test-result-container' style='background-color:#fbe6d6;'>"+
+                                                                "<div><b>建議盡早向婦科醫⽣查詢及進⾏檢查，並以醫⽣診斷為準。</b>如有需要，請記得攜同此評估結果前往求診。由於經⾎過多或因各種原因/ 疾病引致，可影響⼦宮健康狀況及引致貧⾎，建議及早診治。⼀旦延醫，有機會為⾝體帶來⻑遠影響。</div>"+
+                                                            "</div>"+
+                                                            "<div class='test-result-tips-container'>"+
+                                                                "<div style='margin-bottom:10px;'>⼦宮健康⼩貼⼠:</div>"+
+                                                                "<div>"+
+                                                                    "<ul>"+
+                                                                        "<li>經⾎過多是普遍的婦科問題, 每三個處於⽣育期的⼥性就有⼀個深受此困擾，卻沒有求醫。</li>"+
+                                                                        "<li>背後原因可能是⼦宮疾病 (如肌瘤、腺肌症、⼦宮內膜增⽣等)、賀爾蒙分泌不平衡、凝⾎疾病或盆腔炎等。</li>"+
+                                                                        "<li><b>常⾒症狀包括: ⽉經超過7天、每隔1-2⼩時便要更換衞⽣⼱、出現⾎塊/ ⾎崩、影響⽇常⽣活、經期間感到頭暈/疲倦等。</b>。</li>"+
+                                                                        "<li><b>⾎紅素測試及盆腔超聲波檢查等，都是醫⽣常⽤的診斷⽅法之⼀, 也適合未有性經驗的⼥性。</b></li>"+
+                                                                        "<li>普遍會以藥性⼦宮環或⼝服荷爾蒙藥物去減低經⾎流量。</li>"+
+                                                                    "</ul>"+
+                                                                "</div>"+
+                                                            "</div>"+
+                                                            "<div class='img-ref'>資料來源: 1) J.M. Higham et al. British Journal of Obstetrics Gynaecology. August 1990, Vol. 97, pp. 734‐739 2) All about periods. Department of Health HKSAR. Family Health Service. Women Health. 3) Centers for Disease Control and Prevention. Heavy Menstrual Bleeding. 4) Bitzer J et al. Open Access J Contraception. 2013;4:21–28.</div>";           
+        }
+        document.getElementById('submitButton').innerHTML = "<button class='nextButton' onclick='endgame1()'>返回主頁</button><button class='nextButton' href=javascript:void(0) onclick='return check()'>評估結果</button>"
+
+        //
+        if(gender != '') {
+            console.log('submit');
+            $.ajax({
+                url: 'api/game2_save.php',
+                type: 'POST',
+                async: false,
+                cache: false,
+                data: {
+                    'gender': gender,
+                    'age': age,
+                    'day': day,
+                    'using_item': using,
+                    'record': JSON.stringify(recordArray),
+                    'find_doctor': findDoctor,
+                    'heme_test': hemeTest,
+                    'medication': medication,
+                    'score': recordScoreSum
+                },
+                success: function(data){
+                    console.log(data);
+
+                    gender = '';
+                }
+            });
+        }
+        //
+    }
+    function refreshTable() {
+
+        document.getElementById('processday1').innerHTML = "<table id='table2' class='table2' style=' width:80%; height:5%; border='1'><tr id='tr2'></tr></table>";
+        for (var e = 0; e < day; e++) {
+
+            if ((answerDay + 1) == (e + 1)) {
+                document.getElementById('tr2').innerHTML += " <td style='text-align:center;background-color:#666;color:#FFF;' id='summary" + (e + 1) + "' onclick='changePage2(" + e + ")'>" + yoyojson.day[e + 1] + "</td> "
+            } else {
+                document.getElementById('tr2').innerHTML += " <td style='text-align:center' id='summary" + (e + 1) + "'onclick='changePage2(" + e + ")' >" + yoyojson.day[e + 1] + "</td> "
+            }
+
+        }
+        document.getElementById('process').innerHTML = "<table id='table1' >";
+        for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+
+            if (answerDay == recordArray.arrayIndex[i].answerDay) {
+                if (using == "衛生巾") {
+                    document.getElementById('table1').innerHTML += " <tr><th colspan='31' style='text-align: center; vertical-align: middle;padding:20px;'>小總結</th></tr><tr><td style='text-align: center; vertical-align: middle;'>你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生巾:" + recordArray.arrayIndex[i].q2answer['q2c0'] + "塊處於少量流量, " + recordArray.arrayIndex[i].q2answer['q2c1'] + "塊處於中量流量, " + recordArray.arrayIndex[i].q2answer['q2c2'] + "塊處於多量流量</td></tr><tr><td style='text-align: center; vertical-align: middle;'>小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次, 大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次<br/><br/></td></tr></table>"
+                } else {
+                    document.getElementById('table1').innerHTML += " <tr><th colspan='31' style='text-align: center; vertical-align: middle;padding:20px;'>小總結</th></tr><tr><td style='text-align: center; vertical-align: middle;'>你全日總共用了" + recordArray.arrayIndex[i].q1c + "塊衛生棉條:" + recordArray.arrayIndex[i].q2answer['q2c0'] + "塊衛生棉條處於少量流量, " + recordArray.arrayIndex[i].q2answer['q2c1'] + "塊衛生棉條處於中量流量, " + recordArray.arrayIndex[i].q2answer['q2c2'] + "塊衛生棉條處於多量流量, 小血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c1'] + "次,大血塊出現了" + recordArray.arrayIndex[i].q3answer['q3c2'] + "次, 血崩出現了" + recordArray.arrayIndex[i].q4c + "次<br/><br/></td></tr></table>"
+                }
+            }
+        }
+        document.getElementById('process').innerHTML += "</table>";
+    }
+
+    function changePage2(val) {
+        answerDay = val;
+        nextPage();
+    }
+    function saveDetail() {
+        console.log(recordArray.arrayIndex)
+        if (round >= 1) {
+            var SN = parseInt(document.getElementById('counterSN').value);
+            var counter1Value = parseInt(document.getElementById('counterFlow0').value)
+            var counter2Value = parseInt(document.getElementById('counterFlow1').value)
+            var counter3Value = parseInt(document.getElementById('counterFlow2').value)
+            var counterBlood0 = parseInt(document.getElementById('counterBlood0').value)
+            var counterBlood1 = parseInt(document.getElementById('counterBlood1').value)
+            var counterValueSum = (counter1Value + counter2Value + counter3Value);
+            var BloodValueSum = (counterBlood0 + counterBlood1);
+            var radios = document.getElementsByName('options-outlined5');
+            var gg = 0;
+            if (answerDay > 0) {
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        // do whatever you want with the checked radio
+
+                        gg = 1;
+                        // only one radio can be logically checked, don't check the rest
+
+                    }
+                }
+
+            }
+
+            if (counterValueSum != SN) {
+                if (using == "衛生巾") {
+                    alert('衛生巾數目與之前輸入的不相符，請重新選擇');
+                } else {
+                    alert('衛生棉條數目與之前輸入的不相符，請重新選擇');
+                }
+
+
+            } else if (gg == 0 && answerDay > 0) {
+                alert('請選擇來經情況');
+            } else if (answerDay + 1 == day) {
+                var gg = "";
+
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                    var counterq1cValue = parseInt(recordArray.arrayIndex[i].q1c)
+                    var counterq2c0Value = parseInt(recordArray.arrayIndex[i].q2answer.q2c0)
+                    var counterq2c1Value = parseInt(recordArray.arrayIndex[i].q2answer.q2c1)
+                    var counterq2c2Value = parseInt(recordArray.arrayIndex[i].q2answer.q2c2)
+                    var counterValueSumq2 = (counterq2c0Value + counterq2c1Value + counterq2c2Value);
+                    if (counterq1cValue != counterValueSumq2) {
+                        gg += yoyojson.day[recordArray.arrayIndex[i].answerDay + 1] + "尚未回答完成\n"
+                    }
+                }
+                if (gg != "") {
+                    alert(gg)
+                } else {
+                    var counter1ValueCau = parseInt(document.getElementById('counterFlow0').value) * 1
+                    var counter2ValueCau = parseInt(document.getElementById('counterFlow1').value) * 5
+                    var counter3ValueCau = parseInt(document.getElementById('counterFlow2').value) * 20
+                    var counterBlood0Cau = parseInt(document.getElementById('counterBlood0').value) * 1
+                    var counterBlood1Cau = parseInt(document.getElementById('counterBlood1').value) * 5
+                    var sum = counter1ValueCau + counter2ValueCau + counter3ValueCau + counterBlood0Cau + counterBlood1Cau;
+
+
+                    for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+
+                        if (answerDay == recordArray.arrayIndex[i].answerDay) {
+                            recordArray.arrayIndex[i].answerDay = answerDay;
+
+                            recordArray.arrayIndex[i].q1c = document.getElementById('counterSN').value;
+                            recordArray.arrayIndex[i].q2answer.q2c0 = document.getElementById('counterFlow0').value;
+                            recordArray.arrayIndex[i].q2answer.q2c1 = document.getElementById('counterFlow1').value;
+                            recordArray.arrayIndex[i].q2answer.q2c2 = document.getElementById('counterFlow2').value;
+                            recordArray.arrayIndex[i].q3c1 = document.getElementById('counterBlood0').value;
+                            recordArray.arrayIndex[i].q3c2 = document.getElementById('counterBlood1').value;
+                            recordArray.arrayIndex[i].q4c = document.getElementById('counterBloodc').value;
+                            recordArray.arrayIndex[i].score = sum;
+                        }
+
+                    }
+
+                    answerDay++;
+                }
+            } else {
+                var counter1ValueCau = parseInt(document.getElementById('counterFlow0').value) * 1
+                var counter2ValueCau = parseInt(document.getElementById('counterFlow1').value) * 5
+                var counter3ValueCau = parseInt(document.getElementById('counterFlow2').value) * 20
+                var counterBlood0Cau = parseInt(document.getElementById('counterBlood0').value) * 1
+                var counterBlood1Cau = parseInt(document.getElementById('counterBlood1').value) * 5
+                var sum = counter1ValueCau + counter2ValueCau + counter3ValueCau + counterBlood0Cau + counterBlood1Cau;
+
+
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+
+                    if (answerDay == recordArray.arrayIndex[i].answerDay) {
+                        recordArray.arrayIndex[i].answerDay = answerDay;
+
+                        recordArray.arrayIndex[i].q1c = document.getElementById('counterSN').value;
+                        recordArray.arrayIndex[i].q2answer.q2c0 = document.getElementById('counterFlow0').value;
+                        recordArray.arrayIndex[i].q2answer.q2c1 = document.getElementById('counterFlow1').value;
+                        recordArray.arrayIndex[i].q2answer.q2c2 = document.getElementById('counterFlow2').value;
+                        recordArray.arrayIndex[i].q3c1 = document.getElementById('counterBlood0').value;
+                        recordArray.arrayIndex[i].q3c2 = document.getElementById('counterBlood1').value;
+                        recordArray.arrayIndex[i].q4c = document.getElementById('counterBloodc').value;
+                        recordArray.arrayIndex[i].score = sum;
+                    }
+
+                }
+
+
+                answerDay++;
+            }
+
+        }
+    }
+    function saveVal(key, val) {
+        if (val == "男") {
+
+            document.getElementById('gender0').checked = false;
+            alert("此評估只供女性參與");
+        }
+        switch (key) {
+            case 'gender':
+                gender = val;
+
+                break;
+            case 'age':
+                age = val;
+
+                // code block
+                break;
+            case 'day':
+                day = val;
+
+                break;
+            case 'using':
+                using = val;
+
+                // code block
+                break;
+            default:
+            // code block
+        }
+
+        if (val == "男") {
+            gender = "";
+        }
+    }
+</script>
+
+
+
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WS6XJBM"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+    <div class="container-fluid" style="max-width: 100%;">
+
+        <!-- <img class="image" id="image" src="images/image2.jpeg"> -->
+        <div class="row" style="height: 100%;">
+
+            <div class="col-sm col1" id='col1'>
+
+
+                <div class=" col">
+
+
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="col-sm col-t1 blue" style="background-color: #fff; max-width:60%">
+
+                <div class="container">
+
+
+                    <h1 class=" topic" id="topic"></h1>
+
+
+
+                    <!-- <li class="is-complete" data-step="1">
+                            <span class='statusBar'>123</span>
+                        </li>
+
+                        <li class="is-complete" data-step="2">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li class="is-complete" data-step="3">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li class="is-complete" data-step="4">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li class="is-complete" data-step="5">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li class="is-complete" data-step="6">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li class="is-active" data-step="7">
+                            <span class='statusBar'>123</span>
+                        </li>
+                        <li data-step="8" class="progress__last">
+                            <span class='statusBar'>123</span>
+                        </li> -->
+
+
+                    <h2 class=" question" id="question"></h2>
+					
+					<div id="daypp"  >
+                    <div class='processday1' id='processday1'></div>
+                    <div class='process' id='process'> </div>
+					</div>
+                    <div class='question1' id='samequestion'></div>
+                    <div class='same' id='same'>
+                    </div>
+                    <div class=" question1" id='q1'></div>
+                    <div class=" answer" id="q1c"> </div>
+
+
+                    <div class="progress progress-bar-vertical processbar" id='processbar' style='display : none'>
+                        <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar"
+                            id="processbar2" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                            style="height: 90%;">
+                            <span class="sr-only"></span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class=" question1" id='q2'></div>
+                    <div class="processDay" id="processDay">
+
+                    </div>
+                    <div class=" answer" id="q2c"></div>
+
+
+                    <div class=" question1" id='q3'></div>
+                    <div class=" answer q3c" id="q3c" style="  max-width: 50%;"></div>
+
+                    <div class=" question1" id='q4'></div>
+                    <div class=" answer" id="q4c"></div>
+
+                    <div class=" question1" id='q5'></div>
+                    <div class=" answer" id="q5c"></div>
+                    <div class="question1 summary" id="summary"> </div>
+                    <div class="submitbutton" id="submitButton" style="margin-bottom:40px;"></div>
+                    <ol style="margin-top: 5%;" class="progress1" id="progress1">
+                    </ol>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    </div>
+</body>
+<script>
+    function sumCounter(val) {
+        if (val == "flow") {
+            var counter1Value = parseInt(document.getElementById('counterFlow0').value)
+            var counter2Value = parseInt(document.getElementById('counterFlow1').value)
+            var counter3Value = parseInt(document.getElementById('counterFlow2').value)
+            var sum = counter1Value + counter2Value + counter3Value;
+        } else if (val == "blood") {
+            var counter1Value = parseInt(document.getElementById('counterBlood0').value)
+            var counter2Value = parseInt(document.getElementById('counterBlood1').value)
+
+            var sum = counter1Value + counter2Value;
+        }
+
+        return sum;
+    };
+
+    function increaseCount(a, b, c) {
+        var input = b.nextElementSibling;
+        var value = parseInt(input.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        var counterSN = document.getElementById('counterSN').value;
+        // if (value > sumCounter()) {
+        //     alert('123');
+        // } else {
+        if (c == "flow") {
+
+
+            if (sumCounter("flow") >= counterSN) {
+                if (using == "衛生巾") {
+                    alert('衛生巾數目與之前輸入的不相符，請重新選擇');
+                } else {
+                    alert('衛生棉條數目與之前輸入的不相符，請重新選擇');
+                }
+
+
+            } else {
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                    if (recordArray.arrayIndex[i].answerDay == answerDay) {
+                        if (input.id == "counterFlow0") {
+                            recordArray.arrayIndex[i].q2answer['q2c0']++;
+
+                        } else if (input.id == "counterFlow1") {
+                            recordArray.arrayIndex[i].q2answer['q2c1']++;
+
+                        } else if (input.id == "counterFlow2") {
+                            recordArray.arrayIndex[i].q2answer['q2c2']++;
+
+                        }
+                    }
+                }
+                input.value = value;
+            }
+
+            // }
+        } else if (c == "blood") {
+            // if (sumCounter("blood") >= sumCounter("flow")) {
+            //     alert("次數與之前輸入的衛生巾數目不相符，請重新選擇");
+            // } else {
+
+            // recordArray.arrayIndex[i].q1c = document.getElementById('counterSN').value;
+            // recordArray.arrayIndex[i].q2c0 = document.getElementById('counterFlow0').value;
+            // recordArray.arrayIndex[i].q2c1 = document.getElementById('counterFlow1').value;
+            // recordArray.arrayIndex[i].q2c2 = document.getElementById('counterFlow2').value;
+            // recordArray.arrayIndex[i].q3c1 = document.getElementById('counterBlood0').value;
+            // recordArray.arrayIndex[i].q3c2 = document.getElementById('counterBlood1').value;
+            // recordArray.arrayIndex[i].q4c = document.getElementById('counterBloodc').value;
+
+            if (sumCounter("blood") >= 30) {
+                // if (using == "衛生巾") {
+                //     alert('次數與之前輸入的衛生巾數目不相符，請重新選擇');
+                // } else {
+                //     alert('次數與之前輸入的衛生棉條數目不相符，請重新選擇');
+                // }
+                alert('血塊次數超過上限')
+            } else {
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                    if (recordArray.arrayIndex[i].answerDay == answerDay) {
+                        if (input.id == "counterBlood0") {
+                            recordArray.arrayIndex[i].q3answer['q3c1']++;
+
+                        } else if (input.id == "counterBlood1") {
+                            recordArray.arrayIndex[i].q3answer['q3c2']++;
+
+                        }
+                    }
+                }
+
+                input.value = value;
+
+            }
+        } else {
+            for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                if (recordArray.arrayIndex[i].answerDay == answerDay) {
+                    if (input.id == "counterBloodc") {
+                        recordArray.arrayIndex[i].q4c++;
+
+                    }
+                }
+            }
+            input.value = value;
+        }
+        refreshTable();
+    }
+    function increaseCountSN(a, b) {
+        var input = b.nextElementSibling;
+        var value = parseInt(input.value, 10);
+        value = isNaN(value) ? 0 : value;
+        value++;
+        for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+            if (recordArray.arrayIndex[i].answerDay == answerDay) {
+
+                recordArray.arrayIndex[i].q1c++;
+            }
+        }
+
+        input.value = value;
+        refreshTable();
+    }
+    function decreaseCount(a, b, c) {
+        if (c == "stand") {
+            var input = b.previousElementSibling;
+            var value = parseInt(input.value, 10);
+            if (value > 1) {
+                value = isNaN(value) ? 0 : value;
+                value--;
+                input.value = value;
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                    if (recordArray.arrayIndex[i].answerDay == answerDay) {
+                        recordArray.arrayIndex[i].q1c--;
+
+                    }
+
+                }
+            }
+        } else {
+            var input = b.previousElementSibling;
+            var value = parseInt(input.value, 10);
+            if (value > 0) {
+                value = isNaN(value) ? 0 : value;
+                value--;
+                input.value = value;
+                for (var i = 0; i < recordArray.arrayIndex.length; i++) {
+                    if (recordArray.arrayIndex[i].answerDay == answerDay) {
+
+                        if (input.id == "counterFlow0") {
+                            recordArray.arrayIndex[i].q2answer['q2c0']--;
+
+                        } else if (input.id == "counterFlow1") {
+                            recordArray.arrayIndex[i].q2answer['q2c1']--;
+
+                        } else if (input.id == "counterFlow2") {
+                            recordArray.arrayIndex[i].q2answer['q2c2']--;
+
+                        } else if (input.id == "counterBlood0") {
+                            recordArray.arrayIndex[i].q3answer['q3c1']--;
+
+                        } else if (input.id == "counterBlood1") {
+                            recordArray.arrayIndex[i].q3answer['q3c2']--;
+
+
+                        } else if (input.id == "counterBloodc") {
+                            recordArray.arrayIndex[i].q4c--;
+
+                        }
+                    }
+                }
+
+                //          console.log(document.getElementById('button1').value)
+                // var sum = counter1Value + counter2Value + counter3Value;
+            }
+        }
+        refreshTable();
+
+    }
+</script>
+</html>
